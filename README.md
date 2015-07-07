@@ -25,7 +25,9 @@ aditionaly get working libesphttpd and cats/led example so you can check for cha
 find spi driver from MetalPhreak and check that example
 
 make clean all
+ 
 sudo make burn
+ 
 make tty
 
 todo: 
