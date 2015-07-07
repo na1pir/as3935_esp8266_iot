@@ -77,16 +77,17 @@ int ICACHE_FLASH_ATTR cgias3935(HttpdConnData *connData) {
 	if(httpdFindArg(connData->post->buff, "refresh", buff, sizeof(buff))>0){
 		goto end;
 	}
-	if(httpdFindArg(connData->post->buff, "disp", buff, sizeof(buff))>0){	
+/*	if(httpdFindArg(connData->post->buff, "disp", buff, sizeof(buff))>0){	
 		state_machine=atoi(buff);
 		if(state_machine==2){
+			disable_interrupt();
 			as3935_enable_LCO_calibration_mode();
 		}else{
 			as3935_disable_LCO_calibration_mode();
 		}
 		goto end;
 	}
-/*	if(httpdFindArg(connData->post->buff, "div", buff, sizeof(buff))>0){	
+	if(httpdFindArg(connData->post->buff, "div", buff, sizeof(buff))>0){	
 	//	int i;	os_printf("\ntestlco %d,%d,%d testdiv\n",lcofdiv[as3935.x3.a3.LCO_FDIV],as3935.x3.a3.LCO_FDIV,atoi(buff));
 		uint8_t n = atoi(buff);
 		if(lcofdiv[0]==n){	
@@ -124,6 +125,8 @@ int ICACHE_FLASH_ATTR cgias3935(HttpdConnData *connData) {
 	if(httpdFindArg(connData->post->buff, "state", buff, sizeof(buff))>0){	
 		state_machine=atoi(buff);
 		if(state_machine==2){
+			disable_interrupt();
+			as3935_set_tuning_capacitor(0);
 			as3935_enable_LCO_calibration_mode();
 		}else{
 			as3935_disable_LCO_calibration_mode();

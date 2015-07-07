@@ -102,7 +102,7 @@ SREJ - Spike Rejection:	%SREJ%
 </form>			
 </p> 
 <p>
-DISTANCE(r): %DISTANCE%
+DISTANCE: %DISTANCE%
 </p> 
 <!--<p>
 <form method="post" action="as3935.cgi">
@@ -111,9 +111,9 @@ DISTANCE(r): %DISTANCE%
 </p> --!>
 <h2><center>AS3935 lco calibration</center></h2>		
 <p>
-Calibration(will turn relay device off) calibration steps: 
+
 <!--<button type="button" onclick="alert('set LCO_FDIV - this is divides lco resonant frequency) ')">1</button>
---><button type="button" onclick="alert('enable DISP_LCO by seting Relay state to 2 (outputs lco resonant frequency to irq_pin)')">1</button>
+-->Calibration(will turn relay device off) calibration steps: <button type="button" onclick="alert('enable DISP_LCO by seting Relay state to 2 (outputs lco resonant frequency to irq_pin)')">1</button>
 <button type="button" onclick="alert('use osciloscope or frequency counter to probe irq_pin, and adjusting TUN_CAP so that you will get as close as possible to 31.25khz')">2</button>
 <br>
 </p> <!--
@@ -134,7 +134,7 @@ LCO_FDIV - lco divider: %LCO_FDIV%
 <input type="submit" name="div" value=64>
 <input type="submit" name="div" value=128>
 </form>
-</p> --!>
+</p> -->
 <p>
 TUN_CAP - internal tunning variable capacitor: %TUN_CAP% &micro;F
 </p>  

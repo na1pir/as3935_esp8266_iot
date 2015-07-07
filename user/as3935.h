@@ -126,6 +126,18 @@ struct as3935_t{
 
 extern struct as3935_t as3935;
 
+
+void pending_interrupt();
+void ICACHE_FLASH_ATTR disable_interrupt();
+
+void ICACHE_FLASH_ATTR setup_interrupt();
+void ICACHE_FLASH_ATTR clear_interrupt();
+
+//user pins;1 interrupt input, 1 output
+
+#define INT_PIN 4
+#define RELAY_PIN 5
+
 //Constants used for Register Values
 #define MAX_NOISE_FLOOR 0x07
 #define LCO_FDIV16 0
@@ -149,6 +161,15 @@ extern struct as3935_t as3935;
 //5 in detection > distance timeout 
 //6 in detection < distance
 //7 in detection < distance timeout
+
+
+extern volatile uint32_t in_detection_counter;
+
+extern volatile uint8_t tick_flag;
+extern volatile uint8_t interrupt_flag;
+extern volatile uint8_t interrupt_set;
+extern volatile uint8_t tock;
+
 extern volatile uint8_t state_machine;
 extern uint8_t threshold_distance;
 extern uint8_t threshold_timeout;

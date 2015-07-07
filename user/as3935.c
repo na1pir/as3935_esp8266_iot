@@ -35,8 +35,70 @@ struct as3935_t as3935;
 //dout_data: Data payload to send.
 //din_bits: Length of data payload to receive. Set to 0 if not receiving any data.
 //dummy_bits: Number of dummy bits to insert.
-#define spi_write(addr_data,dout_data) spi_transaction(HSPI, 2, 0, 6, (addr_data), 8, (uint32)(dout_data), 0, 0)
-#define spi_read(addr_data) (uint8)spi_transaction( HSPI, 2, 1, 6, (addr_data), 0, 0, 8, 0)
+#define spi_write(addr_data,dout_data) spi_transaction(HSPI, 2, 0, 6, (addr_data), 8, (uint32_t)(dout_data), 0, 0)
+#define spi_read(addr_data) (uint8_t)spi_transaction( HSPI, 2, 1, 6, (addr_data), 0, 0, 8, 0)
+
+
+void pending_interrupt(){
+		interrupt_flag=1;
+}
+
+
+void ICACHE_FLASH_ATTR clear_interrupt(){
+	//clear interrupt status
+	uart0_sendStr("clear irq\n");
+	GPIO_REG_WRITE(GPIO_STATUS_W1TC_ADDRESS, GPIO_REG_READ(GPIO_STATUS_ADDRESS) );
+	
+	as3935_chip_read();
+	switch(as3935.x3.a3.INT){
+		case IRQ_L:
+			uart0_sendStr("as3935 lightning event \r\n");
+			//check if we are within treshold
+			if(threshold_distance>as3935.x7.a7.DISTANCE){
+				//switch relay off
+				
+				GPIO_OUTPUT_SET(GPIO_ID_PIN(RELAY_PIN),0);
+				
+				//sqedule further checking
+				state_machine=6;
+			}
+			
+		break;
+		case IRQ_D:
+		//debug and clibration purposes
+			uart0_sendStr("as3935 disturber detected \r\n");
+			
+		break;
+		case IRQ_NF:
+		//debug and clibration purposes
+			uart0_sendStr("as3935 noise lewel to high \r\n");
+			//print to web page that we need to change  settings
+		break;
+	}
+}
+
+
+void ICACHE_FLASH_ATTR setup_interrupt(){
+	uart0_sendStr("setup interrupt\n");
+	//disable interrupt if it is enabled
+	ETS_GPIO_INTR_DISABLE();
+	//setup a interrupt pin for possitive edge front trigger
+	gpio_pin_intr_state_set(GPIO_ID_PIN(INT_PIN),GPIO_PIN_INTR_HILEVEL);//or GPIO_PIN_INTR_POSEDGE
+	
+	//set callback when interrupt trigeres 
+	ETS_GPIO_INTR_ATTACH(pending_interrupt, 0);
+	interrupt_set=1;
+	
+}
+
+void ICACHE_FLASH_ATTR disable_interrupt(){
+	if(!interrupt_set){
+	uart0_sendStr("disable interrupt\n");
+	//disable interrupt if it is enabled
+	ETS_GPIO_INTR_DISABLE();
+
+	interrupt_set=0;}
+}
 
 void  ICACHE_FLASH_ATTR as3935_chip_read(){
 	uint8_t tm[100];
@@ -90,6 +152,9 @@ uint8_t ICACHE_FLASH_ATTR  as3935_dc(uint8_t dc){
 
 uint32_t ICACHE_FLASH_ATTR as3935_get_lightning_energy(){
 	HSPI_INIT_STUF;
+	as3935.x6.a6.S_LIG_MM=0;
+	as3935.x5.a5.S_LIG_M=0;
+	as3935.x4.a4.S_LIG_L=0;
 	as3935.x4.d4=spi_read(4);	
 	as3935.x5.d5=spi_read(5);
 	as3935.x6.d6=spi_read(6);
@@ -100,6 +165,7 @@ uint32_t ICACHE_FLASH_ATTR as3935_get_lightning_energy(){
 //otherwise it is value in km
 uint8_t ICACHE_FLASH_ATTR as3935_get_lightning_distance(){
 	HSPI_INIT_STUF;
+	as3935.x7.a7.DISTANCE=0;
 	as3935.x7.d7=spi_read(7);
 	return as3935.x7.a7.DISTANCE;
 }
@@ -109,11 +175,10 @@ uint8_t ICACHE_FLASH_ATTR as3935_get_lightning_distance(){
 // 4 for INT_D disturber detected 
 // 8 for INT_L lightning detected
 uint8_t ICACHE_FLASH_ATTR as3935_interrupt_source(){//get interrupt source but first wait for 2ms for chip to calculate what trigerred it
-	//this won't work
-	//os_delay_us(2000);
-	
-	HSPI_INIT_STUF;
 
+	HSPI_INIT_STUF;
+	//this won't work
+	os_delay_us(2000);
 	as3935.x3.d3=spi_read(3);
 	return as3935.x3.a3.INT;
 }
@@ -135,6 +200,7 @@ void ICACHE_FLASH_ATTR as3935_clear_stat(){
 //returns values from 0 to 7 
 uint8_t ICACHE_FLASH_ATTR as3935_get_noise_floor_level(){
 	HSPI_INIT_STUF;
+	as3935.x1.a1.NF_LEV=0;
 	spi_read(1);
 	return as3935.x1.a1.NF_LEV;
 } 
@@ -149,6 +215,7 @@ void ICACHE_FLASH_ATTR as3935_set_noise_floor_level(uint8_t noise){
 //before we acknolage thunderstorm
 uint8_t ICACHE_FLASH_ATTR as3935_get_min_lightning_events(){
 	HSPI_INIT_STUF;
+	as3935.x2.a2.MIN_NUM_LIGH=0;
 	spi_read(2);
 	return as3935.x2.a2.MIN_NUM_LIGH;
 } 
@@ -165,6 +232,7 @@ void ICACHE_FLASH_ATTR as3935_set_min_lightning_events(uint8_t num){
 //look if reporting of disturbers on interrupt pin is enabled
 unsigned char ICACHE_FLASH_ATTR as3935_get_mask_disturbers(){
 	HSPI_INIT_STUF;
+	as3935.x3.a3.MASK_DIST=0;
 	spi_read(3);
 	return as3935.x3.a3.MASK_DIST;
 }
@@ -183,6 +251,7 @@ void ICACHE_FLASH_ATTR as3935_set_mask_disturbers(uint8_t enabled){
 //indoor == 0b10010 or outdoor == 0b01110
 uint8_t ICACHE_FLASH_ATTR as3935_get_AFE_gainboost(){
 	HSPI_INIT_STUF;
+	as3935.x0.a0.AFE_GB=0;
 	spi_read(0);
 	return as3935.x0.a0.AFE_GB;
 }
@@ -199,6 +268,7 @@ void ICACHE_FLASH_ATTR as3935_set_AFE_gainboost(uint8_t gain){
 
 uint8_t as3935_get_watchdog_thresold(){
 	HSPI_INIT_STUF;
+	as3935.x1.a1.WDTH=0;
 	spi_read(1);
 	return as3935.x1.a1.WDTH;
 }
@@ -214,6 +284,7 @@ void ICACHE_FLASH_ATTR as3935_set_watchdog_thresold(uint8_t threshold){
 
 uint8_t ICACHE_FLASH_ATTR as3935_get_spike_rejection(){
 	HSPI_INIT_STUF;
+	as3935.x2.a2.SREJ=0;
 	spi_read(2);
 	return as3935.x2.a2.SREJ;
 }
@@ -248,7 +319,8 @@ void ICACHE_FLASH_ATTR as3935_set_lco_calibration(uint8_t mode){
 
 
 void ICACHE_FLASH_ATTR as3935_enable_LCO_calibration_mode(){
-	ETS_GPIO_INTR_DISABLE();
+	//ETS_GPIO_INTR_DISABLE();
+	as3935_set_tuning_capacitor(0);
 	as3935_set_lco_calibration(1);
 }
 
@@ -259,6 +331,7 @@ void ICACHE_FLASH_ATTR as3935_disable_LCO_calibration_mode(){
 
 uint8_t ICACHE_FLASH_ATTR as3935_get_LCO_calibration(){
 	HSPI_INIT_STUF;
+	as3935.x8.a8.DISP_LCO=0;
 	spi_read(8);
 	return as3935.x8.a8.DISP_LCO;
 }
@@ -271,6 +344,7 @@ uint8_t ICACHE_FLASH_ATTR as3935_get_LCO_calibration(){
 //#define LCO_FDIV128 3
 uint8_t ICACHE_FLASH_ATTR as3935_get_lco_divider(){
 	HSPI_INIT_STUF;
+	as3935.x3.a3.LCO_FDIV=0;
 	spi_read(3);
 	return as3935.x3.a3.LCO_FDIV;
 } 
@@ -300,7 +374,7 @@ void ICACHE_FLASH_ATTR as3935_TRCO_calibration(){
 	as3935.x8.a8.DISP_TRCO=1;	
 	spi_write(8,as3935.x8.d8);
 	//this won't work
-	//os_delay_us(2000);
+	os_delay_us(2000);
 	
 	as3935.x8.a8.DISP_TRCO=0;	
 	spi_write(8,as3935.x8.d8);
@@ -308,6 +382,7 @@ void ICACHE_FLASH_ATTR as3935_TRCO_calibration(){
 
 uint8_t ICACHE_FLASH_ATTR as3935_get_tuning_capacitor(){
 	HSPI_INIT_STUF;
+	as3935.x8.a8.TUN_CAP=0;
 	spi_read(8);
 	return as3935.x8.a8.TUN_CAP;
 }
@@ -338,7 +413,7 @@ void ICACHE_FLASH_ATTR as3935_init(){
 	spi_write(0x3d,0x96);//dc CALIB_RCO
 	as3935_TRCO_calibration();
 	as3935_set_min_lightning_events(0);//REG0x02[5] REG0x02[4] 1(0),5(1),9(2),16(3)
-	as3935_set_mask_disturbers(0);//after we are satified with operation just turn off
+	as3935_set_mask_disturbers(0);//after we are satified with operation just turn off by sending 1
 	as3935_set_AFE_gainboost(INDOOR);
 	as3935_set_watchdog_thresold(1);
 	as3935_set_spike_rejection(2);
