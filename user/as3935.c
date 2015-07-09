@@ -5,9 +5,8 @@
  * It might work or it may not, just don't sue me if your house burns down or if it kills you...
  * 
  * This software and hardware is described in my diploma thesis(work in progress). 
- * When it will be finished and published you can read it but just learn Slovenian first if you wish to read it:)
- *  
- * Use it for personal use as you will, just keep this notice on it if you do! 
+ *   
+ * Use it for personal use as you wish, just keep this notice on it if you do! 
  * And return changes back free of charge by same restrictions and notice! 
  * 
  * For comercial use you can contact me and we can make a deal...
@@ -15,7 +14,7 @@
  * Development took alot of time and money so remember me with some spare 
  * bitcoins: 1MaGphnuiMjywjQPKHKF239wzcef4KpNxX if you wish:)
  * 
- * This software uses expresif sdk software, spi library from David Ogilvy(MetalPhreak) and libesphttpd & wifi settins form Jeroen Domburg(sprite_fm). So use and rescpect their respective licencies for their work. 
+ * This software uses espressif sdk software, spi library from David Ogilvy(MetalPhreak) and libesphttpd & wifi settins form Jeroen Domburg(sprite_fm). So use and rescpect their respective licencies for their work. 
  */
 
 #include "as3935.h"
@@ -175,11 +174,12 @@ uint8_t ICACHE_FLASH_ATTR as3935_get_lightning_distance(){
 // 4 for INT_D disturber detected 
 // 8 for INT_L lightning detected
 uint8_t ICACHE_FLASH_ATTR as3935_interrupt_source(){//get interrupt source but first wait for 2ms for chip to calculate what trigerred it
-
+	system_soft_wdt_stop();
 	HSPI_INIT_STUF;
 	//this won't work
-	os_delay_us(2000);
+	os_delay_us(3000);
 	as3935.x3.d3=spi_read(3);
+	system_soft_wdt_restart();
 	return as3935.x3.a3.INT;
 }
 
@@ -403,6 +403,7 @@ void ICACHE_FLASH_ATTR as3935_set_tuning_capacitor(uint8_t cap){
 void ICACHE_FLASH_ATTR as3935_init(){
 	//we can only use uart for debugging no jtag in this iot devil
 	//uart_div_modify(0, 115200);
+	system_soft_wdt_stop();
 	uart0_sendStr("as3935_init function\n");
 	
 	//we use i2c for communication with as3935
@@ -410,12 +411,16 @@ void ICACHE_FLASH_ATTR as3935_init(){
 	
 	//first inicialize chip
 	spi_write(0x3c,0x96);//dc	PRESET_DEFAULT
+	as3935_set_tuning_capacitor(3); //factory calibrated 3 and 13
 	spi_write(0x3d,0x96);//dc CALIB_RCO
+	
 	as3935_TRCO_calibration();
-	as3935_set_min_lightning_events(0);//REG0x02[5] REG0x02[4] 1(0),5(1),9(2),16(3)
+	/*as3935_set_min_lightning_events(0);//REG0x02[5] REG0x02[4] 1(0),5(1),9(2),16(3)
 	as3935_set_mask_disturbers(0);//after we are satified with operation just turn off by sending 1
 	as3935_set_AFE_gainboost(INDOOR);
 	as3935_set_watchdog_thresold(1);
 	as3935_set_spike_rejection(2);
-	as3935_set_noise_floor_level(2);
+	as3935_set_noise_floor_level(2);*/
+	system_soft_wdt_restart();
+	
 }

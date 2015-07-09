@@ -5,9 +5,8 @@
  * It might work or it may not, just don't sue me if your house burns down or if it kills you...
  * 
  * This software and hardware is described in my diploma thesis(work in progress). 
- * When it will be finished and published you can read it but just learn Slovenian first if you wish to read it:)
- *  
- * Use it for personal use as you will, just keep this notice on it if you do! 
+ *   
+ * Use it for personal use as you wish, just keep this notice on it if you do! 
  * And return changes back free of charge by same restrictions and notice! 
  * 
  * For comercial use you can contact me and we can make a deal...
@@ -15,7 +14,7 @@
  * Development took alot of time and money so remember me with some spare 
  * bitcoins: 1MaGphnuiMjywjQPKHKF239wzcef4KpNxX if you wish:)
  * 
- * This software uses expresif sdk software, spi library from David Ogilvy(MetalPhreak) and libesphttpd & wifi settins form Jeroen Domburg(sprite_fm). So use and rescpect their respective licencies for their work. 
+ * This software uses espressif sdk software, spi library from David Ogilvy(MetalPhreak) and libesphttpd & wifi settins form Jeroen Domburg(sprite_fm). So use and rescpect their respective licencies for their work. 
  */
 
 #include <esp8266.h>
@@ -67,8 +66,7 @@ int ICACHE_FLASH_ATTR cgias3935(HttpdConnData *connData) {
 			os_printf("\nouch i made a bubu min light events wrong\n");		
 		}
 		goto end;
-		
-		goto end;
+
 	}
 	if(httpdFindArg(connData->post->buff, "spike", buff, sizeof(buff))>0){	
 		as3935_set_spike_rejection(atoi(buff));
@@ -134,7 +132,7 @@ int ICACHE_FLASH_ATTR cgias3935(HttpdConnData *connData) {
 		goto end;
 	}
 		
-	
+	as3935_chip_read();
 	
 end:
 #define TEST

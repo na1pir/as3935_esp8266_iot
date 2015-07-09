@@ -18,7 +18,8 @@ SDK_BASE	?= ~/bin/esp8266/esp-open-sdk/sdk
 
 #Esptool.py path and port
 ESPTOOL		?= ~/bin/esp8266/esp-open-sdk/xtensa-lx106-elf/bin/esptool.py
-ESPPORT		?= /dev/ttyUSB0
+ESPPORT		?= /dev/ttyUSB1
+
 #ESPDELAY indicates seconds to wait between flashing the two binary images
 ESPDELAY	?= 3
 ESPBAUD		?= 115200
@@ -146,15 +147,13 @@ $(BUILD_DIR):
 flash: $(TARGET_OUT) $(FW_BASE)
 	$(Q) $(ESPTOOL) --port $(ESPPORT) --baud $(ESPBAUD) write_flash 0x00000 $(FW_BASE)/0x00000.bin 0x40000 $(FW_BASE)/0x40000.bin
 
-blankflash:
+blank:
 	$(Q) $(ESPTOOL) --port $(ESPPORT) --baud $(ESPBAUD) write_flash 0x7E000 $(SDK_BASE)/bin/blank.bin
 
 htmlflash: libesphttpd
 	$(Q) if [ $$(stat -c '%s' libesphttpd/webpages.espfs) -gt $$(( $(ESPFS_SIZE) )) ]; then echo "webpages.espfs too big!"; false; fi
 	$(Q) $(ESPTOOL) --port $(ESPPORT) --baud $(ESPBAUD) write_flash $(ESPFS_POS) libesphttpd/webpages.espfs
 
-terminal :
-	@stty -F $(ESPPORT) 115200 -echo raw && cat $(ESPPORT)
 tty :
 	@stty -F $(ESPPORT) 115200 -echo raw && cat $(ESPPORT)
 burn:

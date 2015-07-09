@@ -5,9 +5,8 @@
  * It might work or it may not, just don't sue me if your house burns down or if it kills you...
  * 
  * This software and hardware is described in my diploma thesis(work in progress). 
- * When it will be finished and published you can read it but just learn Slovenian first if you wish to read it:)
- *  
- * Use it for personal use as you will, just keep this notice on it if you do! 
+ *   
+ * Use it for personal use as you wish, just keep this notice on it if you do! 
  * And return changes back free of charge by same restrictions and notice! 
  * 
  * For comercial use you can contact me and we can make a deal...
@@ -15,9 +14,9 @@
  * Development took alot of time and money so remember me with some spare 
  * bitcoins: 1MaGphnuiMjywjQPKHKF239wzcef4KpNxX if you wish:)
  * 
- * This software uses expresif sdk software, spi library from David Ogilvy(MetalPhreak) and libesphttpd & wifi settins form Jeroen Domburg(sprite_fm). So use and rescpect their respective licencies for their work. 
+ * This software uses espressif sdk software, spi library from David Ogilvy(MetalPhreak) and libesphttpd & wifi settins form Jeroen Domburg(sprite_fm). So use and rescpect their respective licencies for their work. 
  */
- 
+ #include <stdint.h>
 #include <esp8266.h>
 #include "httpd.h"
 #include "httpdespfs.h"
@@ -139,7 +138,9 @@ static void ICACHE_FLASH_ATTR procTask(os_event_t *events)
 	if(tick_flag==1){
 		//todo if interrups start to work anytime soon you only read periodicly when in detection 
 		if(tock==1){
-			as3935_chip_read();
+			if(state_machine>3){
+				as3935_chip_read();
+			}
 			tock=0;
 		}
 		else{
@@ -243,11 +244,14 @@ void user_init(void) {
     char password[64] = SSID_PASSWORD;
     struct station_config station_conf;
     
-    //Set station mode (connecting to another network)
+    //Set station mode (connecting to another network great for testing)
     //wifi_set_opmode( 0x1 );
     
-    //or lets just make our own
-    wifi_set_opmode( 0x2 );
+    //or lets just make our own - for offline
+    //wifi_set_opmode( 0x2 );
+    
+    //station+softap 
+    wifi_set_opmode( 0x3 ); //warning power hungry
 
     //Set ap settings
     os_memcpy(&station_conf.ssid, ssid, 32);
@@ -268,7 +272,7 @@ void user_init(void) {
 	//sqedule worker task
 	system_os_post(procTaskPrio, 0, 0 );
 
-	// 0x40200000 is the base address for spi ash memory mapping, ESPFS_POS is the position
+	// 0x40200000 is the base address for spi fash memory mapping, ESPFS_POS is the position
 	// where image is written in flash that is defined in Makefile.
 #ifdef ESPFS_POS
 	espFsInit((void*)(0x40200000 + ESPFS_POS));

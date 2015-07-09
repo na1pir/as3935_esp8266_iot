@@ -1,4 +1,4 @@
-<html><head><title>Esp8266 web server</title>
+<html><head><title>THUNERSTORM PROTECTED IOT SWITCH</title>
 <link rel="stylesheet" type="text/css" href="style.css">
 </head>
 <body>			
@@ -104,37 +104,10 @@ SREJ - Spike Rejection:	%SREJ%
 <p>
 DISTANCE: %DISTANCE%
 </p> 
-<!--<p>
-<form method="post" action="as3935.cgi">
-<input type="submit" name="refresh" value=1>
-</form>
-</p> --!>
-<h2><center>AS3935 lco calibration</center></h2>		
-<p>
-
-<!--<button type="button" onclick="alert('set LCO_FDIV - this is divides lco resonant frequency) ')">1</button>
--->Calibration(will turn relay device off) calibration steps: <button type="button" onclick="alert('enable DISP_LCO by seting Relay state to 2 (outputs lco resonant frequency to irq_pin)')">1</button>
+Calibration(will turn relay device off) calibration steps: <button type="button" onclick="alert('enable DISP_LCO by seting Relay state to 2 (outputs lco resonant frequency to irq_pin)')">1</button>
 <button type="button" onclick="alert('use osciloscope or frequency counter to probe irq_pin, and adjusting TUN_CAP so that you will get as close as possible to 31.25khz')">2</button>
 <br>
-</p> <!--
-<p>
-DISP_LCO - Callibration-mode: %DISP_LCO%
 </p> 
-<p>			
-<form method="post" action="as3935.cgi">
-<input type="submit" name="disp" value=0>
-<input type="submit" name="disp" value=1>
-</form>
-</p> 
-<p>
-LCO_FDIV - lco divider: %LCO_FDIV%	
-<form method="post" action="as3935.cgi">
-<input type="submit" name="div" value=16>
-<input type="submit" name="div" value=32>
-<input type="submit" name="div" value=64>
-<input type="submit" name="div" value=128>
-</form>
-</p> -->
 <p>
 TUN_CAP - internal tunning variable capacitor: %TUN_CAP% &micro;F
 </p>  
@@ -159,11 +132,9 @@ TUN_CAP - internal tunning variable capacitor: %TUN_CAP% &micro;F
 </form>
 </p>
 
+<p><a href="/wifi">Wifi settings</a></p>
 <p>
 <center>&copy; 2015 golob.uros@gmail.com </center>
-<p>
-wifi settings & libesphttpd from sprite_fm(Jeroen Domburg)<br> hspi driver from MetalPhreak(David Ogilvy) <br><a href="/wifi">Wifi settings</a>  
-</p>
 </p>
 </div>
 </body>
