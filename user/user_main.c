@@ -71,7 +71,7 @@ void user_rf_pre_init(void){
 
 volatile uint8_t state_machine=0;
 
- uint8_t threshold_distance=10;
+ uint8_t threshold_distance=30;
  uint8_t threshold_timeout=15;
 
  uint8_t tuncaplookuptable[]={ 0,8,16,24,32,40 ,48 ,56 ,64 ,72,80,88,96,104,112,120};
@@ -145,6 +145,12 @@ static void ICACHE_FLASH_ATTR procTask(os_event_t *events)
 		}
 		else{
 			tock=1;
+			if(state_machine>3){//alternative to interrupts
+				if(as3935.x7.a7.DISTANCE<threshold_distance){
+					state_machine=6;
+				}
+			}
+				
 		}
 
 		tick_flag=0;
