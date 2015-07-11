@@ -49,38 +49,40 @@ struct as3935_t{
 	union data_t0 {
 		uint8_t d0;
 		struct as3935_data0_t{
-			uint8_t reserved:2;
-			uint8_t AFE_GB:5;
 			uint8_t PWD:1;
+			uint8_t AFE_GB:5;
+			uint8_t reserved:2;
 		}a0;
 	}x0;
 	
 	union data_t1 {
 		uint8_t d1;
 		struct as3935_data1_t{
-		uint8_t reserved:1;
-		uint8_t NF_LEV:3;
 		uint8_t WDTH:4;
+		uint8_t NF_LEV:3;
+		uint8_t reserved:1;
+		
 		}a1;
 	}x1;
 	
 	union data_t2 {
 		uint8_t d2;
 		struct as3935_data2_t{
-		uint8_t reserved:1;
-		uint8_t CL_STAT:1;
-		uint8_t MIN_NUM_LIGH:2;
 		uint8_t SREJ:4;
+		uint8_t MIN_NUM_LIGH:2;
+		uint8_t CL_STAT:1;
+		uint8_t reserved:1;
 		}a2;
 	}x2;
 	
 	union data_t3 {
 		uint8_t d3;
 		struct as3935_data3_t{
-		uint8_t LCO_FDIV:2;
-		uint8_t MASK_DIST:1;
-		uint8_t reserved:1;
 		uint8_t INT:4;
+		uint8_t reserved:1;
+		uint8_t MASK_DIST:1;
+		uint8_t LCO_FDIV:2;
+		
 		}a3;
 	}x3;
 		
@@ -101,25 +103,27 @@ struct as3935_t{
 	union data_t6 {
 		uint8_t d6;
 		struct as3935_data6_t{
-			uint8_t reserved:3;
-			uint8_t S_LIG_MM:5;
+				uint8_t S_LIG_MM:5;
+				uint8_t reserved:3;
+		
 		}a6;
 	}x6;
 	
 	union data_t7 {
 		uint8_t d7;
 		struct as3935_data7_t{
-			uint8_t reserved:2;
+			
 			uint8_t DISTANCE:6;
+			uint8_t reserved:2;
 		}a7;
 	}x7;		
 	union data_t8 {
 		uint8_t d8;
 		struct as3935_data8_t{
-			uint8_t DISP_LCO:1;
-			uint8_t DISP_SRCO:1;
-			uint8_t DISP_TRCO:1;
 			uint8_t TUN_CAP:4;
+			uint8_t DISP_TRCO:1;
+			uint8_t DISP_SRCO:1;
+			uint8_t DISP_LCO:1;
 		}a8;
 	}x8;
 };
@@ -152,6 +156,7 @@ void ICACHE_FLASH_ATTR clear_interrupt();
 #define IRQ_L 8
 #define INDOOR 0b10010 //18
 #define OUTDOOR 0b01110 //14
+
 
 //0 off
 //1 on
