@@ -150,8 +150,8 @@ void ICACHE_FLASH_ATTR clear_interrupt();
 #define IRQ_NF 1
 #define IRQ_D 4
 #define IRQ_L 8
-#define INDOOR 0b10010
-#define OUTDOOR 0b01110
+#define INDOOR 0b10010 //18
+#define OUTDOOR 0b01110 //14
 
 //0 off
 //1 on

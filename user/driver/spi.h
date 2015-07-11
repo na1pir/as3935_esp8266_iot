@@ -46,9 +46,9 @@
 #endif
 
 //Define some default SPI clock settings
-#define SPI_CLK_PREDIV 10
-#define SPI_CLK_CNTDIV 8
-#define SPI_CLK_FREQ CPU_CLK_FREQ/(SPI_CLK_PREDIV*SPI_CLK_CNTDIV) // 80 / 80 = 1 MHz
+#define SPI_CLK_PREDIV 7
+#define SPI_CLK_CNTDIV 9
+#define SPI_CLK_FREQ CPU_CLK_FREQ/(SPI_CLK_PREDIV*SPI_CLK_CNTDIV) // 80 / 160 = 1 MHz
 
 
 
