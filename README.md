@@ -24,6 +24,7 @@ how to:
 -get yourself working esp-open-sdk + newer sdk from espressif and link it to esp-open-sdk/sdk 
 -aditionaly get working sprite_fm libesphttpd and cats/led example so you can check for changes
 -find spi driver from MetalPhreak and check that example
+make sure to export your esp-open-sdk/xtensa-lx106-elf/bin path to system path... additionaly export esp-open-sdk/sdk as SDK_BASE, then ESPTOOL... in ubuntu it is best to do it in .profile  
 
 #from as3935_esp8266_iot folder run
 make clean all
