@@ -103,11 +103,14 @@ int ICACHE_FLASH_ATTR cgias3935(HttpdConnData *connData) {
 		goto end;
 	}*/
 	if(httpdFindArg(connData->post->buff, "cap", buff, sizeof(buff))>0){
-		int i;
+		uint8_t i;
+		uint8_t num=atoi(buff);
 		for( i=0;i<=0xf;i++){
-			if(tuncaplookuptable[i]==atoi(buff)){	
+			os_printf("\na2i: %d, %d, %d \n",num,tuncaplookuptable[i],i );
+			if(tuncaplookuptable[i]==num){	
+				os_printf("ok\n");
 				as3935_set_tuning_capacitor(i);
-				break;
+				//break;
 			}
 		}	 
 		goto end;

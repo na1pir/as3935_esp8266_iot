@@ -33,7 +33,10 @@ from as3935_esp8266_iot folder run
 
 put esp into boot mode (i have reset and boot(rst and gpio0 respectivly to gnd) buttons soldered into my board) so press reset and boot then lift reset first then boot and run
 
+	make burn 
+or 
 	sudo make burn 
+if your dialout permision thingy stufs aren't setup properly
 
 for debbuging
 
