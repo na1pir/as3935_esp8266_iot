@@ -178,6 +178,7 @@ uint8_t ICACHE_FLASH_ATTR as3935_interrupt_source(){//get interrupt source but f
 	HSPI_INIT_STUF;
 	//this won't work
 	os_delay_us(3000);
+	as3935.x3.a3.INT=0;
 	as3935.x3.d3=spi_read(3);
 	system_soft_wdt_restart();
 	return as3935.x3.a3.INT;
@@ -320,7 +321,7 @@ void ICACHE_FLASH_ATTR as3935_set_lco_calibration(uint8_t mode){
 
 void ICACHE_FLASH_ATTR as3935_enable_LCO_calibration_mode(){
 	//ETS_GPIO_INTR_DISABLE();
-	as3935_set_tuning_capacitor(0);
+	//as3935_set_tuning_capacitor(as3935.x3.a3.LCO_FDIV);
 	as3935_set_lco_calibration(1);
 }
 
@@ -391,6 +392,8 @@ void ICACHE_FLASH_ATTR as3935_set_tuning_capacitor(uint8_t cap){
 	HSPI_INIT_STUF;
 	as3935.x8.d8=spi_read(8);
 	as3935.x8.a8.TUN_CAP=cap;
+	
+	os_printf("\nsetting tun cap to: %d, %d\n",tuncaplookuptable[cap],cap );
 	spi_write(8,as3935.x8.d8);		
 }
 
@@ -411,7 +414,8 @@ void ICACHE_FLASH_ATTR as3935_init(){
 	
 	//first inicialize chip
 	spi_write(0x3c,0x96);//dc	PRESET_DEFAULT
-	as3935_set_tuning_capacitor(3); //factory calibrated 3 and 13
+	//as3935_set_tuning_capacitor(3); //factory calibrated 3 and 12
+	//as3935_set_tuning_capacitor(12);
 	spi_write(0x3d,0x96);//dc CALIB_RCO
 	
 	as3935_TRCO_calibration();

@@ -110,8 +110,9 @@ int ICACHE_FLASH_ATTR cgias3935(HttpdConnData *connData) {
 			if(tuncaplookuptable[i]==num){	
 				os_printf("ok\n");
 				as3935_set_tuning_capacitor(i);
-				//break;
+				break;
 			}
+			
 		}	 
 		goto end;
 	}
@@ -127,7 +128,7 @@ int ICACHE_FLASH_ATTR cgias3935(HttpdConnData *connData) {
 		state_machine=atoi(buff);
 		if(state_machine==2){
 			disable_interrupt();
-			as3935_set_tuning_capacitor(0);
+			//as3935_set_tuning_capacitor(0);
 			as3935_enable_LCO_calibration_mode();
 		}else{
 			as3935_disable_LCO_calibration_mode();

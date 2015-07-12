@@ -121,6 +121,7 @@ struct as3935_t{
 		uint8_t d8;
 		struct as3935_data8_t{
 			uint8_t TUN_CAP:4;
+			uint8_t reserved:1;
 			uint8_t DISP_TRCO:1;
 			uint8_t DISP_SRCO:1;
 			uint8_t DISP_LCO:1;
