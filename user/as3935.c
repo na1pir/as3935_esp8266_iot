@@ -320,8 +320,6 @@ void ICACHE_FLASH_ATTR as3935_set_lco_calibration(uint8_t mode){
 
 
 void ICACHE_FLASH_ATTR as3935_enable_LCO_calibration_mode(){
-	//ETS_GPIO_INTR_DISABLE();
-	//as3935_set_tuning_capacitor(as3935.x3.a3.LCO_FDIV);
 	as3935_set_lco_calibration(1);
 }
 

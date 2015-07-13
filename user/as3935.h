@@ -182,7 +182,7 @@ extern uint8_t threshold_timeout;
 
 extern uint8_t tuncaplookuptable[];
 extern uint16_t noise_outdoor[];
-extern uint16_t noise_indoot[];
+extern uint16_t noise_indoor[];
 extern uint8_t min_num_ligh[];
 extern uint8_t lcofdiv[];
 

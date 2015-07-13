@@ -194,8 +194,12 @@ int ICACHE_FLASH_ATTR tplas3935(HttpdConnData *connData, char *token, void **arg
 	}	
 	
 	if (os_strcmp(token, "NF_LEV")==0) {
-	os_sprintf(buff,"%d",as3935.x1.a1.NF_LEV);
-	}	
+		if(as3935.x0.a0.AFE_GB==18){
+				os_sprintf(buff,"%d",noise_indoor[as3935.x1.a1.NF_LEV]);
+		}else{
+				os_sprintf(buff,"%d",noise_outdoor[as3935.x1.a1.NF_LEV]);
+		}
+	}
 	
 	if (os_strcmp(token, "AFE_GB")==0) {
 		if(as3935.x0.a0.AFE_GB==18){

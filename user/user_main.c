@@ -75,8 +75,8 @@ volatile uint8_t state_machine=0;
  uint8_t threshold_timeout=15;
 
  uint8_t tuncaplookuptable[]={ 0,8,16,24,32,40 ,48 ,56 ,64 ,72,80,88,96,104,112,120};
- //uint16_t noise_outdoor[]={390, 630, 860, 1100, 1140, 1570, 1800, 2000};
- //uint16_t noise_indoor[]={28, 45, 62, 78, 95, 112, 130, 146};
+ uint16_t noise_outdoor[]={390, 630, 860, 1100, 1140, 1570, 1800, 2000};
+ uint16_t noise_indoor[]={28, 45, 62, 78, 95, 112, 130, 146};
  uint8_t min_num_ligh[]={1,5,9,15};
  uint8_t lcofdiv[]={16,32,64,128};
 
