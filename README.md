@@ -44,11 +44,4 @@ for debbuging
 
 -setup geany for above commnds it will save you lots of time
 
-todo: 
-- recheck registers there migh be another terrible mistake
-- interrupt won't fire and i don't know why...  
-maybe becouse it is somewhat ftloating - check for gpio settings
-
-later maybe... 
-when that essential things work make some use of flash for storing settings
-maybe add client side for sendig lightning events with time  and distance to database in external server
+todo: fix all issues
