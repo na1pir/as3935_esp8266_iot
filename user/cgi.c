@@ -63,7 +63,7 @@ int ICACHE_FLASH_ATTR cgias3935(HttpdConnData *connData) {
 		else
 		{
 			as3935_set_min_lightning_events(0);
-			os_printf("\nouch i made a bubu min light events wrong\n");		
+			os_printf("\nouch i made a bubu min light events wrong set to 1\n");		
 		}
 		goto end;
 
@@ -75,33 +75,7 @@ int ICACHE_FLASH_ATTR cgias3935(HttpdConnData *connData) {
 	if(httpdFindArg(connData->post->buff, "refresh", buff, sizeof(buff))>0){
 		goto end;
 	}
-/*	if(httpdFindArg(connData->post->buff, "disp", buff, sizeof(buff))>0){	
-		state_machine=atoi(buff);
-		if(state_machine==2){
-			disable_interrupt();
-			as3935_enable_LCO_calibration_mode();
-		}else{
-			as3935_disable_LCO_calibration_mode();
-		}
-		goto end;
-	}
-	if(httpdFindArg(connData->post->buff, "div", buff, sizeof(buff))>0){	
-	//	int i;	os_printf("\ntestlco %d,%d,%d testdiv\n",lcofdiv[as3935.x3.a3.LCO_FDIV],as3935.x3.a3.LCO_FDIV,atoi(buff));
-		uint8_t n = atoi(buff);
-		if(lcofdiv[0]==n){	
-			as3935_set_lco_divider(0);
-		}
-		else if(lcofdiv[1]==n){	
-			as3935_set_lco_divider(1);
-		}
-		else if(lcofdiv[2]==n){	
-			as3935_set_lco_divider(2);
-		}
-		else if(lcofdiv[3]==n){	
-			as3935_set_lco_divider(3);
-		}
-		goto end;
-	}*/
+	
 	if(httpdFindArg(connData->post->buff, "cap", buff, sizeof(buff))>0){
 		uint8_t i;
 		uint8_t num=atoi(buff);
@@ -170,20 +144,16 @@ int ICACHE_FLASH_ATTR tplas3935(HttpdConnData *connData, char *token, void **arg
 			os_sprintf(buff,"%d",tuncaplookuptable[as3935.x8.a8.TUN_CAP]);
 	}
 	
-/*	if (os_strcmp(token, "LCO_FDIV")==0) {
-		os_sprintf(buff,"%d",lcofdiv[as3935.x3.a3.LCO_FDIV]);
-	}*/
-	/*
-	if (os_strcmp(token, "DISP_LCO")==0) {
-		if (state_machine==2){
-			os_strcpy(buff, "ENABLED");
-			}else{os_strcpy(buff, "DISABLED");
-			}
-	}*/
-	
 	if (os_strcmp(token, "DISTANCE")==0) {
-			os_sprintf(buff,"%d",as3935.x7.a7.DISTANCE);
-	}	
+			if(as3935.x7.a7.DISTANCE==1){
+				os_sprintf(buff,"Storm is Overhead");
+			}else if (as3935.x7.a7.DISTANCE==63){
+				os_sprintf(buff,"Storm is out of range");
+			}
+			else{
+				os_sprintf(buff,"%d",as3935.x7.a7.DISTANCE);
+			}
+	}
 	
 	if (os_strcmp(token, "SREJ")==0) {
 	os_sprintf(buff,"%d",as3935.x2.a2.SREJ);
@@ -212,8 +182,6 @@ int ICACHE_FLASH_ATTR tplas3935(HttpdConnData *connData, char *token, void **arg
 	if (os_strcmp(token, "MIN_NUM_LIGH")==0) {
 	os_sprintf(buff,"%d",min_num_ligh[as3935.x2.a2.MIN_NUM_LIGH]);
 	}
-	
-	
 	
 	
 	if (os_strcmp(token, "relay_state")==0) {

@@ -82,7 +82,7 @@ void ICACHE_FLASH_ATTR setup_interrupt(){
 	//disable interrupt if it is enabled
 	ETS_GPIO_INTR_DISABLE();
 	//setup a interrupt pin for possitive edge front trigger
-	gpio_pin_intr_state_set(GPIO_ID_PIN(INT_PIN),GPIO_PIN_INTR_HILEVEL);//or GPIO_PIN_INTR_POSEDGE
+	gpio_pin_intr_state_set(GPIO_ID_PIN(INT_PIN),GPIO_PIN_INTR_POSEDGE);//or GPIO_PIN_INTR_POSEDGE or GPIO_PIN_INTR_HILEVEL
 	
 	//set callback when interrupt trigeres 
 	ETS_GPIO_INTR_ATTACH(pending_interrupt, 0);
@@ -91,12 +91,13 @@ void ICACHE_FLASH_ATTR setup_interrupt(){
 }
 
 void ICACHE_FLASH_ATTR disable_interrupt(){
-	if(!interrupt_set){
-	uart0_sendStr("disable interrupt\n");
-	//disable interrupt if it is enabled
-	ETS_GPIO_INTR_DISABLE();
+	if(interrupt_set){
+		uart0_sendStr("disable interrupt\n");
+		//disable interrupt if it is enabled
+		ETS_GPIO_INTR_DISABLE();
 
-	interrupt_set=0;}
+		interrupt_set=0;
+	}
 }
 
 void  ICACHE_FLASH_ATTR as3935_chip_read(){

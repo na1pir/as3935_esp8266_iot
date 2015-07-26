@@ -110,7 +110,7 @@ void ICACHE_FLASH_ATTR ticker_timer(void *arg)
 	}
 	seconds_from_boot++;
 	if(seconds_from_boot%15==0){
-		os_printf("Heap: %ld\nAFE_GB[%d],NF_LEV[%d],WDTH[%d],MIN_NUM_LIGH[%d],SREJ[%d],INT[%d],LCO_FDIV[%d],MASK_DIST[%d],DISTANCE[%d],TUN_CAP[%d]\n",(unsigned long)system_get_free_heap_size(),as3935.x0.a0.AFE_GB,as3935.x1.a1.NF_LEV,as3935.x1.a1.WDTH,as3935.x2.a2.MIN_NUM_LIGH,as3935.x2.a2.SREJ,as3935.x3.a3.INT,as3935.x3.a3.LCO_FDIV,as3935.x3.a3.MASK_DIST,as3935.x7.a7.DISTANCE,as3935.x8.a8.TUN_CAP);
+		os_printf("Heap: %ld\nAFE_GB[%d],NF_LEV[%d],WDTH[%d],MIN_NUM_LIGH[%d],SREJ[%d],INT[%d],LCO_FDIV[%d],MASK_DIST[%d],DISTANCE[%d],TUN_CAP[%d], STATE[%d]\n",(unsigned long)system_get_free_heap_size(),as3935.x0.a0.AFE_GB,as3935.x1.a1.NF_LEV,as3935.x1.a1.WDTH,as3935.x2.a2.MIN_NUM_LIGH,as3935.x2.a2.SREJ,as3935.x3.a3.INT,as3935.x3.a3.LCO_FDIV,as3935.x3.a3.MASK_DIST,as3935.x7.a7.DISTANCE,as3935.x8.a8.TUN_CAP,state_machine);
 	}
 }
 
@@ -138,14 +138,14 @@ static void ICACHE_FLASH_ATTR procTask(os_event_t *events)
 	if(tick_flag==1){
 		//todo if interrups start to work anytime soon you only read periodicly when in detection 
 		if(tock==1){
-			if(state_machine>3){
+			if(state_machine>2){
 				as3935_chip_read();
 			}
 			tock=0;
 		}
 		else{
 			tock=1;
-			if(state_machine>3){//alternative to interrupts
+			if(state_machine>2){//alternative to interrupts
 				if(as3935.x7.a7.DISTANCE<threshold_distance){
 					state_machine=6;
 				}
@@ -254,10 +254,10 @@ void user_init(void) {
     //wifi_set_opmode( 0x1 );
     
     //or lets just make our own - for offline
-    //wifi_set_opmode( 0x2 );
+   // wifi_set_opmode( 0x2 );
     
     //station+softap 
-    wifi_set_opmode( 0x3 ); //warning power hungry
+	wifi_set_opmode( 0x3 ); //warning power hungry
 
     //Set ap settings
     os_memcpy(&station_conf.ssid, ssid, 32);
