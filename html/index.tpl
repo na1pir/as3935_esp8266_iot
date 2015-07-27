@@ -99,6 +99,14 @@ SREJ - Spike Rejection:	%SREJ%
 <input type="submit" name="spike" value=5>
 <input type="submit" name="spike" value=6>
 <input type="submit" name="spike" value=7>	
+<input type="submit" name="spike" value=8>
+<input type="submit" name="spike" value=9>
+<input type="submit" name="spike" value=10>
+<input type="submit" name="spike" value=11>	
+<input type="submit" name="spike" value=12>
+<input type="submit" name="spike" value=13>
+<input type="submit" name="spike" value=14>
+<input type="submit" name="spike" value=15>	
 </form>			
 </p> 
 <p>

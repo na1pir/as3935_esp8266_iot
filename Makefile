@@ -37,7 +37,7 @@ LIBS		= c gcc hal phy pp net80211 wpa main lwip
 LIBS += esphttpd
 
 # compiler flags using during compilation of source files
-CFLAGS		= -Os -ggdb -std=c99    -Wl,-EL -fno-inline-functions \
+CFLAGS		= -O1 -ggdb -std=c99    -Wl,-EL -fno-inline-functions \
 		-nostdlib -mlongcalls -mtext-section-literals  -D__ets__ -DICACHE_FLASH -D_STDINT_H \
 		
 		#-Wall -Wundef -Werror -Wpointer-arith -Wno-address 
