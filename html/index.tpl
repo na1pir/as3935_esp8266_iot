@@ -67,6 +67,7 @@ WDTH - watchdog threshold: %WDTH%
 <input type="submit" name="wdth" value=12>
 <input type="submit" name="wdth" value=13>					
 <input type="submit" name="wdth" value=14>
+<input type="submit" name="wdth" value=15>
 </form>			
 </p>
 <p>
