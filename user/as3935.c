@@ -34,7 +34,7 @@ struct as3935_t as3935;
 //dout_data: Data payload to send.
 //din_bits: Length of data payload to receive. Set to 0 if not receiving any data.
 //dummy_bits: Number of dummy bits to insert.
-#define spi_write(addr_data,dout_data) spi_transaction(HSPI, 2, 0, 6, (addr_data), 8, (uint32_t)(dout_data), 0, 0)
+#define spi_write(addr_data,out_data) spi_transaction(HSPI, 2, 0, 6, (addr_data), 8, (uint32_t)(out_data), 0, 0)
 #define spi_read(addr_data) (uint8_t)spi_transaction( HSPI, 2, 1, 6, (addr_data), 0, 0, 8, 0)
 
 
