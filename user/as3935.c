@@ -64,14 +64,12 @@ void ICACHE_FLASH_ATTR clear_interrupt(){
 			
 		break;
 		case IRQ_D:
-		//debug and clibration purposes
 			uart0_sendStr("as3935 disturber detected \r\n");
 			
 		break;
 		case IRQ_NF:
-		//debug and clibration purposes
 			uart0_sendStr("as3935 noise lewel to high \r\n");
-			//print to web page that we need to change  settings
+			//todo: print to web page that we need to change  settings
 		break;
 	}
 }
