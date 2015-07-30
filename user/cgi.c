@@ -61,7 +61,12 @@ void load_setings(){
 		as3935.x1.d1=settings.data1;
 		as3935.x2.d2=settings.data2;
 		as3935.x8.d8=settings.data8;
-		state_machine=settings.state;
+		if(settings.state<4){
+			state_machine=settings.state;
+		}
+		else{
+			state_machine=3;
+		}
 		threshold_timeout=settings.timeout;
 		threshold_distance=settings.threshdistance;
 		

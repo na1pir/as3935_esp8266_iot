@@ -7,6 +7,8 @@
 <h2>
 <center>User Settings </center>
 </h2>
+
+
 <p>Distance threshold %distance_threshold%  <form method="post" action="as3935.cgi" oninput="x.value=parseInt(distance.value)">1 <input type="range"  name="distance"  min="1" max="40" value="%distance_threshold%"> 40 km <output name="x" for="distance"></output> <input type="submit"></form>		
 </p>
 <p>Timeout; %timeout_threshold% <form method="post" action="as3935.cgi" oninput="x.value=parseInt(timeout.value)">1 <input type="range"  name="timeout"  min="1" max="120" value="%timeout_threshold%"> 120 minutes  <output name="x" for="timeout"></output> <input type="submit"></form>				
@@ -19,7 +21,14 @@
 <input type="submit" name="state" value=3>
 </form>
 </p>
-<center><h2>AS3935 thuderstike sensor settings a8nd fine tunning </h2></center>
+
+<p>THUNDERSTORM DISTANCE: %DISTANCE%</p> 
+
+<center><h2>AS3935 thuderstike sensor settings and fine tunning </h2></center>
+
+
+<form method="post" action="as3935.cgi">  </form>
+
 <p>AFE_GB - analog front end gain boost: %AFE_GB%  
 <form method="post" action="as3935.cgi">	
 <input type="radio" name="boost" value=18>Indoor 
@@ -56,20 +65,6 @@
 <input type="submit" name="wdth" value=14>
 <input type="submit" name="wdth" value=15>
 </form></p>
-<p>CL_STAT - clear statistic
-<form method="post" action="as3935.cgi">
-<input type="submit" name="clear" value="CLEAR STATISTICS">
-</form></p> 
-
-<p>SAVE SETTINGS:
-<form method="post" action="as3935.cgi">
-<input type="submit" name="save" value="SAVE">
-</form></p>
-
-<p>Put as3935 into defoult:
-<form method="post" action="as3935.cgi">
-<input type="submit" name="default" value="PRESET_DEFAULT">
-</form></p>
 
 <p>MIN_NUM_LIGH, minimum number of lightnings: %MIN_NUM_LIGH%</p>
 <p><form method="post" action="as3935.cgi">
@@ -98,7 +93,7 @@
 <input type="submit" name="spike" value=15>	
 </form>			
 </p> 
-<p>DISTANCE: %DISTANCE%</p> 
+
 Calibration(will turn relay device off) calibration steps: <button type="button" onclick="alert('enable DISP_LCO by seting Relay state to 2 (outputs lco resonant frequency to irq_pin)')">1</button>
 <button type="button" onclick="alert('use osciloscope or frequency counter to probe irq_pin, and adjusting TUN_CAP so that you will get as close as possible to 31.25khz')">2</button>
 <br>
@@ -124,6 +119,13 @@ Calibration(will turn relay device off) calibration steps: <button type="button"
 <input type="submit" name="cap" value=120>	
 </form>
 </p>
+
+<form method="post" action="as3935.cgi">
+	<input type="submit" name="clear" value="CLEAR AS3935 STATISTICS">
+	 <input type="submit" name="default" value="Sets all AS3935's registers in default mode">
+	 <input type="submit" name="save" value="SAVE ALL SETTINGS TO FLASH"> 
+</form>
+
 <p><a href="/wifi">Wifi settings</a></p>
 <p>
 <center>&copy; 2015 golob.uros@gmail.com </center>
