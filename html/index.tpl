@@ -63,7 +63,7 @@
 
 <p>SAVE SETTINGS:
 <form method="post" action="as3935.cgi">
-<input type="submit" name="save" value=1>
+<input type="submit" name="save" value="SAVE">
 </form></p>
 
 <p>MIN_NUM_LIGH, minimum number of lightnings: %MIN_NUM_LIGH%</p>

@@ -56,6 +56,7 @@ void load_setings(){
 	system_soft_wdt_stop();
 	
 	if(SPI_FLASH_RESULT_OK==spi_flash_read(0x3E000, (uint32 *)addr, 8)){
+		if(settings.padd==42){
 		as3935.x0.d0=settings.data0;
 		as3935.x1.d1=settings.data1;
 		as3935.x2.d2=settings.data2;
@@ -68,6 +69,10 @@ void load_setings(){
 		spi_write(1,as3935.x1.d1);
 		spi_write(2,as3935.x2.d2);
 		spi_write(8,as3935.x8.d8);
+	}
+	else{
+		os_printf("error data not loaded from device because there is no settings saved\n");
+		}
   	}else{
   		os_printf("error data not writen to flash\n");
   	}
