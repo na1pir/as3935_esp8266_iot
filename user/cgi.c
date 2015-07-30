@@ -111,6 +111,12 @@ int ICACHE_FLASH_ATTR cgias3935(HttpdConnData *connData) {
 		save_settings();
 		goto end;		
 	}
+	
+	if(httpdFindArg(connData->post->buff, "default", buff, sizeof(buff))>0){	
+		spi_write(0x3C,0x96);
+		goto end;		
+	}
+	
 	if(httpdFindArg(connData->post->buff, "min", buff, sizeof(buff))>0){
 		as3935_set_min_lightning_events(atoi(buff));
 		

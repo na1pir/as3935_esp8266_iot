@@ -66,6 +66,11 @@
 <input type="submit" name="save" value="SAVE">
 </form></p>
 
+<p>Put as3935 into defoult:
+<form method="post" action="as3935.cgi">
+<input type="submit" name="default" value="PRESET_DEFAULT">
+</form></p>
+
 <p>MIN_NUM_LIGH, minimum number of lightnings: %MIN_NUM_LIGH%</p>
 <p><form method="post" action="as3935.cgi">
 <input type="submit" name="min" value=1>
