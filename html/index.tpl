@@ -58,7 +58,7 @@
 </form></p>
 <p>CL_STAT - clear statistic
 <form method="post" action="as3935.cgi">
-<input type="submit" name="clear" value=1>
+<input type="submit" name="clear" value="CLEAR STATISTICS">
 </form></p> 
 
 <p>SAVE SETTINGS:
