@@ -4,19 +4,14 @@
 <body>			
 <div id="main">
 <center><h1>THUNERSTORM PROTECTED IOT SWITCH</h1></center>
-
-
 <h2>
 <center>User Settings </center>
 </h2>
-<p>
-Distance threshold %distance_threshold%  <form method="post" action="as3935.cgi" oninput="x.value=parseInt(distance.value)">1 <input type="range"  name="distance"  min="1" max="40" value="%distance_threshold%"> 40 km <output name="x" for="distance"></output> <input type="submit"></form>		
+<p>Distance threshold %distance_threshold%  <form method="post" action="as3935.cgi" oninput="x.value=parseInt(distance.value)">1 <input type="range"  name="distance"  min="1" max="40" value="%distance_threshold%"> 40 km <output name="x" for="distance"></output> <input type="submit"></form>		
 </p>
-<p>
-Timeout; %timeout_threshold% <form method="post" action="as3935.cgi" oninput="x.value=parseInt(timeout.value)">1 <input type="range"  name="timeout"  min="1" max="120" value="%timeout_threshold%"> 120 minutes  <output name="x" for="timeout"></output> <input type="submit"></form>				
+<p>Timeout; %timeout_threshold% <form method="post" action="as3935.cgi" oninput="x.value=parseInt(timeout.value)">1 <input type="range"  name="timeout"  min="1" max="120" value="%timeout_threshold%"> 120 minutes  <output name="x" for="timeout"></output> <input type="submit"></form>				
 </p>
-<p>
-Relay state;	%relay_state%  
+<p>Relay state;	%relay_state%  
 <form method="post" action="as3935.cgi">
 <input type="submit" name="state" value=0>
 <input type="submit" name="state" value=1>
@@ -24,19 +19,14 @@ Relay state;	%relay_state%
 <input type="submit" name="state" value=3>
 </form>
 </p>
-<center><h2>AS3935 thuderstike sensor settings and fine tunning </h2></center>
-<p>
-AFE_GB - analog front end gain boost: %AFE_GB%  
-	
+<center><h2>AS3935 thuderstike sensor settings a8nd fine tunning </h2></center>
+<p>AFE_GB - analog front end gain boost: %AFE_GB%  
 <form method="post" action="as3935.cgi">	
 <input type="radio" name="boost" value=18>Indoor 
 <input type="radio" name="boost" value=14>Outdoor
 <input type="submit">
-</form>
-</p>
-<p> 
-NF_LEV -noise floor level: %NF_LEV%
-	
+</form></p>
+<p>NF_LEV -noise floor level: %NF_LEV%
 <form method="post" action="as3935.cgi">
 <input type="submit" name="noise" value=0>
 <input type="submit" name="noise" value=1>
@@ -46,11 +36,8 @@ NF_LEV -noise floor level: %NF_LEV%
 <input type="submit" name="noise" value=5>
 <input type="submit" name="noise" value=6>
 <input type="submit" name="noise" value=7>
-</form>
-</p>
-<p>
-WDTH - watchdog threshold: %WDTH%
-
+</form></p>
+<p>WDTH - watchdog threshold: %WDTH%
 <form method="post" action="as3935.cgi">
 <input type="submit" name="wdth" value=0>
 <input type="submit" name="wdth" value=1>
@@ -68,30 +55,26 @@ WDTH - watchdog threshold: %WDTH%
 <input type="submit" name="wdth" value=13>					
 <input type="submit" name="wdth" value=14>
 <input type="submit" name="wdth" value=15>
-</form>			
-</p>
-<p>
-CL_STAT - clear statistic
+</form></p>
+<p>CL_STAT - clear statistic
 <form method="post" action="as3935.cgi">
 <input type="submit" name="clear" value=1>
-</form>
-</p> 
-<p>			
-MIN_NUM_LIGH, minimum number of lightnings: %MIN_NUM_LIGH%
-</p>
-<p>
+</form></p> 
+
+<p>SAVE SETTINGS:
 <form method="post" action="as3935.cgi">
+<input type="submit" name="save" value=1>
+</form></p>
+
+<p>MIN_NUM_LIGH, minimum number of lightnings: %MIN_NUM_LIGH%</p>
+<p><form method="post" action="as3935.cgi">
 <input type="submit" name="min" value=1>
 <input type="submit" name="min" value=5>						
 <input type="submit" name="min" value=9>
 <input type="submit" name="min" value=15>
-</form>
-</p> 
-<p>
-SREJ - Spike Rejection:	%SREJ%	
-</p>
-<p>
-<form method="post" action="as3935.cgi">
+</form></p> 
+<p>SREJ - Spike Rejection:	%SREJ%</p>
+<p><form method="post" action="as3935.cgi">
 <input type="submit" name="spike" value=0>
 <input type="submit" name="spike" value=1>						
 <input type="submit" name="spike" value=2>
@@ -110,16 +93,12 @@ SREJ - Spike Rejection:	%SREJ%
 <input type="submit" name="spike" value=15>	
 </form>			
 </p> 
-<p>
-DISTANCE: %DISTANCE%
-</p> 
+<p>DISTANCE: %DISTANCE%</p> 
 Calibration(will turn relay device off) calibration steps: <button type="button" onclick="alert('enable DISP_LCO by seting Relay state to 2 (outputs lco resonant frequency to irq_pin)')">1</button>
 <button type="button" onclick="alert('use osciloscope or frequency counter to probe irq_pin, and adjusting TUN_CAP so that you will get as close as possible to 31.25khz')">2</button>
 <br>
 </p> 
-<p>
-TUN_CAP - internal tunning variable capacitor: %TUN_CAP% &micro;F
-</p>  
+<p>TUN_CAP - internal tunning variable capacitor: %TUN_CAP% &micro;F</p>  
 <p>
 <form method="post" action="as3935.cgi">
 <input type="submit" name="cap" value=0>
@@ -140,7 +119,6 @@ TUN_CAP - internal tunning variable capacitor: %TUN_CAP% &micro;F
 <input type="submit" name="cap" value=120>	
 </form>
 </p>
-
 <p><a href="/wifi">Wifi settings</a></p>
 <p>
 <center>&copy; 2015 golob.uros@gmail.com </center>

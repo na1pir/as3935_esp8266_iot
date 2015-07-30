@@ -43,6 +43,27 @@
 #include "gpio.h"
 #include "os_type.h"
 
+
+
+#define HSPI_INIT_STUF 	{spi_init(HSPI);spi_init_gpio(HSPI, SPI_CLK_USE_DIV);spi_tx_byte_order(HSPI, SPI_BYTE_ORDER_HIGH_TO_LOW);spi_rx_byte_order(HSPI, SPI_BYTE_ORDER_HIGH_TO_LOW);} 
+
+#define GPIO_OUTPUT_SET(gpio_no, bit_value)	gpio_output_set(bit_value<<gpio_no, ((~bit_value)&0x01)<<gpio_no, 1<<gpio_no,0)
+//spi_transaction(spi_no, cmd_bits, cmd_data, addr_bits, addr_data, dout_bits, dout_data, din_bits, dummy_bits)
+//spi_no: SPI or HSPI
+//cmd_bits: length of command. Set to 0 to disable command component.
+//cmd_data: Command data to send.
+//addr_bits: length of address. Set to 0 to disable address component.
+//addr_data: Address data to send.
+//dout_bits: Length of data payload to send. Set to 0 to disable data out component.
+//dout_data: Data payload to send.
+//din_bits: Length of data payload to receive. Set to 0 if not receiving any data.
+//dummy_bits: Number of dummy bits to insert.
+#define spi_write(addr_data,out_data) spi_transaction(HSPI, 2, 0, 6, (addr_data), 8, (uint32_t)(out_data), 0, 0)
+#define spi_read(addr_data) (uint8_t)spi_transaction( HSPI, 2, 1, 6, (addr_data), 0, 0, 8, 0)
+
+
+
+
 //structure that maps all registers
 //so we can acces all data from chip as its meaning and read and write as byte
 struct as3935_t{
@@ -130,7 +151,7 @@ struct as3935_t{
 };
 
 extern struct as3935_t as3935;
-
+extern struct settings_t settings;
 
 void pending_interrupt();
 void ICACHE_FLASH_ATTR disable_interrupt();

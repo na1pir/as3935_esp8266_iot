@@ -2,7 +2,8 @@
 #the webpages will be linked in into the executable file. If this is defined, please do a 
 #'make htmlflash' to flash the espfs into the ESPs memory.
 ESPFS_POS = 0x12000
-ESPFS_SIZE = 0x2E000
+ESPFS_SIZE = 0x2DFF8
+#size was 0x2E000 i made some room for settings 8 bytes
 
 # Output directors to store intermediate compiled files
 # relative to the project directory

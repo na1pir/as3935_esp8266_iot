@@ -286,6 +286,8 @@ void user_init(void) {
 	espFsInit((void*)(webpages_espfs_start));
 #endif
 	httpdInit(builtInUrls, 80);
+	
+	load_setings();
 
 	os_printf("\nInit done!\n");
 }

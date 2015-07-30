@@ -21,6 +21,62 @@
 #include "cgi.h"
 #include "as3935.h"
 
+
+
+  
+void save_settings(){
+  settings.data0=as3935.x0.d0;
+  settings.data1=as3935.x1.d1;
+  settings.data2=as3935.x2.d2;
+  settings.data8=as3935.x8.d8;
+  settings.state=state_machine;
+  settings.timeout=threshold_timeout;
+  settings.threshdistance=threshold_distance;
+  settings.padd=42;
+  
+  uint8 *addr = (uint8 *)&settings;
+  //for erasing before writing 
+	if(SPI_FLASH_RESULT_OK==spi_flash_erase_sector (0x3e)){
+		
+		if(SPI_FLASH_RESULT_OK==spi_flash_write(0x3E000, (uint32 *)addr, 8)){
+
+  	}else{
+  		os_printf("error data not writen to flash\n");
+  	}
+  		 //writing data
+	}
+
+  		
+}
+ 
+ 
+void load_setings(){
+	uint8 *addr = (uint8 *)&settings;
+	
+	system_soft_wdt_stop();
+	
+	if(SPI_FLASH_RESULT_OK==spi_flash_read(0x3E000, (uint32 *)addr, 8)){
+		as3935.x0.d0=settings.data0;
+		as3935.x1.d1=settings.data1;
+		as3935.x2.d2=settings.data2;
+		as3935.x8.d8=settings.data8;
+		state_machine=settings.state;
+		threshold_timeout=settings.timeout;
+		threshold_distance=settings.threshdistance;
+		
+		spi_write(0,as3935.x0.d0);
+		spi_write(1,as3935.x1.d1);
+		spi_write(2,as3935.x2.d2);
+		spi_write(8,as3935.x8.d8);
+  	}else{
+  		os_printf("error data not writen to flash\n");
+  	}
+  	system_soft_wdt_restart();
+}
+ 
+ 
+
+
 int ICACHE_FLASH_ATTR cgias3935(HttpdConnData *connData) {
 	char buff[128];
 	
@@ -43,6 +99,11 @@ int ICACHE_FLASH_ATTR cgias3935(HttpdConnData *connData) {
 	}
 	if(httpdFindArg(connData->post->buff, "clear", buff, sizeof(buff))>0){	
 		as3935_clear_stat();
+		goto end;		
+	}
+	
+	if(httpdFindArg(connData->post->buff, "save", buff, sizeof(buff))>0){	
+		save_settings();
 		goto end;		
 	}
 	if(httpdFindArg(connData->post->buff, "min", buff, sizeof(buff))>0){
