@@ -81,14 +81,19 @@ const char ICACHE_FLASH_ATTR *httpdGetMimetype(char *url) {
 
 //Looks up the connData info for a specific esp connection
 static HttpdConnData ICACHE_FLASH_ATTR *httpdFindConnData(void *arg) {
-	int i;
-	for (i=0; i<MAX_CONN; i++) {
-		if (connData[i].conn==(struct espconn *)arg) return &connData[i];
+	struct espconn *espconn = arg;
+	for (int i=0; i<MAX_CONN; i++) {
+		if (connData[i].remote_port == espconn->proto.tcp->remote_port &&
+						os_memcmp(connData[i].remote_ip, espconn->proto.tcp->remote_ip, 4) == 0) {
+			if (arg != connData[i].conn) connData[i].conn = arg; // yes, this happens!?
+			return &connData[i];
+		}
 	}
 	//Shouldn't happen.
-	os_printf("FindConnData: Huh? Couldn't find connection for %p\n", arg);
+	os_printf("*** Unknown connection 0x%p\n", arg);
 	return NULL;
 }
+
 
 //Retires a connection for re-use
 static void ICACHE_FLASH_ATTR httpdRetireConn(HttpdConnData *conn) {
@@ -96,6 +101,8 @@ static void ICACHE_FLASH_ATTR httpdRetireConn(HttpdConnData *conn) {
 	conn->post->buff=NULL;
 	conn->cgi=NULL;
 	conn->conn=NULL;
+	conn->remote_port=0;
+	os_memset(conn->remote_ip, 0, 4);
 }
 
 //Stupid li'l helper function that returns the value of a hex char.
@@ -235,12 +242,27 @@ int ICACHE_FLASH_ATTR cgiRedirect(HttpdConnData *connData) {
 //in the 'official' DNS and so will fail.
 int ICACHE_FLASH_ATTR cgiRedirectToHostname(HttpdConnData *connData) {
 	char buff[1024];
+	int isIP=0;
+	int x;
 	if (connData->conn==NULL) {
 		//Connection aborted. Clean up.
 		return HTTPD_CGI_DONE;
 	}
+	if (connData->hostName==NULL) {
+		os_printf("Huh? No hostname.\n");
+		return HTTPD_CGI_NOTFOUND;
+	}
+
+	//Quick and dirty code to see if host is an IP
+	if (os_strlen(connData->hostName)>8) {
+		isIP=1;
+		for (x=0; x<strlen(connData->hostName); x++) {
+			if (connData->hostName[x]!='.' && (connData->hostName[x]<'0' || connData->hostName[x]>'9')) isIP=0;
+		}
+	}
+	if (isIP) return HTTPD_CGI_NOTFOUND;
 	//Check hostname; pass on if the same
-	if (connData->hostName==NULL || os_strcmp(connData->hostName, (char*)connData->cgiArg)==0) return HTTPD_CGI_NOTFOUND;
+	if (os_strcmp(connData->hostName, (char*)connData->cgiArg)==0) return HTTPD_CGI_NOTFOUND;
 	//Not the same. Redirect to real hostname.
 	os_sprintf(buff, "http://%s/", (char*)connData->cgiArg);
 	os_printf("Redirecting to hostname url %s\n", buff);
@@ -556,6 +578,8 @@ static void ICACHE_FLASH_ATTR httpdConnectCb(void *arg) {
 	connData[i].post->received=0;
 	connData[i].post->len=-1;
 	connData[i].hostName=NULL;
+	connData[i].remote_port=conn->proto.tcp->remote_port;
+	os_memcpy(connData[i].remote_ip, conn->proto.tcp->remote_ip, 4);
 
 	espconn_regist_recvcb(conn, httpdRecvCb);
 	espconn_regist_reconcb(conn, httpdReconCb);
@@ -579,4 +603,5 @@ void ICACHE_FLASH_ATTR httpdInit(HttpdBuiltInUrl *fixedUrls, int port) {
 	os_printf("Httpd init, conn=%p\n", &httpdConn);
 	espconn_regist_connectcb(&httpdConn, httpdConnectCb);
 	espconn_accept(&httpdConn);
+	espconn_tcp_set_max_con_allow(&httpdConn, MAX_CONN);
 }

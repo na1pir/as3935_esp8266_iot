@@ -1,0 +1,104 @@
+
+Diplomsko delo
+Aktivno varovanje elektronskih naprav pred prenapetostjo zaradi udara strele
+
+
+Priimek in ime: Golob Uroš					Vpisna številka: 93578256
+Naslov stalnega bivališča:                  Telef. številka: 031494355
+Žabjek 8, 8212 Velika Loka		           	Davčna številka: 37207776
+
+
+Kazalo
+
+Uvod 
+Predstavitev problema 
+Predstavitev obstoječih sistemov varovanja 
+Izbira arhitekture in razvojnega okolja 
+Načrtovanje vgrajenega računalniškega sistema 
+Načrtovanje in izdelava vgrajene programske opreme 
+Preizkušanje 
+Sklep
+Viri
+
+Uvod
+todo:ko bo vse drugo končano v uvod napiši kar manjka drugje bolj ali manj bistvo zakaj naprimer zaradi varovanja naprav proti elekričnem udaru, 
+da se zzmanjša evaste ali pa še kak drug pomemben razlog za to napravo
+naprimer:
+
+Predstavitev problema 
+Vreme je kaoticni sistem, ki se ga kljub letom raziskav težko natančno napove. Še tezje pa se je pravilno na njih odzvati na način, 
+da odvrnemo vsako nepotrebno skodo. En izmed najbolj nepredvijivih in škodnih pojavov je nevihta, 
+ki jo zelo pogosto spremlja strela. 
+
+Oblaki se tvorijo tako, da se vodni hlapi kondenzirajo na pršne delca, ki so lahko pozitivno ali negativno nabiti, skupaj tvorita dežno kapljico. 
+Zemljina površina je ponavadi negativno nabita, a med nevihto se površina nabije pozitivno. 
+Med padanjem kapljice skozi oblak se le ta polarizira tako, da se zgornja stran kapljice nabije negativno predvsem zato ker se spodnja nabije pozitivno ker jo privlači nabaoj zemlje. 
+Ker je v ozračju veliko prašnih delcev tako pozitivnih kot negativnih. Negativne od teh privlači pozitivno nabaita spodnja stran kapljic, a ker kapljica pada zračni tok prisili negativne prašne delce na zgorno stran kapljice so le te ob izhodu iz oblaka v celoti negativno nabite. Ravno tako je zato spodnji del oblaka negativno nabit, termodinamika pa dvigne pozitivno nabaite delce na vrh oblakov. 
+TODO: priloži sliko ki to ponazarja
+
+En izmed najbolj znanih poizkusov strele kje bil Benjamin Franklinov z njegovim zmajem z ključem.
+TODO:Priloži sliko 
+Kmalu zatem pa tudi preizkus, ki potrjuje polariziranost vodnih kapljic, ki ga je izdelal William Thomson (Lord Kelvin) z njegovim kapljalnikom. 
+TODO: Priloži sliko 
+
+Raziskave so pokazale, da so nevihtni oblaki v visini nad 6 -7 km pozitivno nabiti spodnja stran nevihtnih oblakov na visini 3-4 km pa negativno, hkrati se površje zelmlje nabije pozitivno. Strela nastane ko elektricna polja med dnom oblaka in povrsjem zemlje doseze med 20 000 000 in 100 000 000 voltov, razlika v naboju povzroci ionizacijo zraka le ta pa omogoci elektricini preboj, ki se manifestira v blisku, jakosti med 10 000 do 20 000 amperov. 
+TODO:Priloži sliko oblaka in kaplic medtem ko se električno nabijajo
+
+
+
+Predstavitev obstoječih sistemov varovanja 
+TODO:
+opiši sestavo in način delovanja strelovoda
+opiši delovanje in sestavo protinapetostnih zaščit
+opiši delovanje sparkgapa
+opiši mov, znr, fuse,...
+
+Izbira arhitekture in razvojnega okolja 
+po predlogu mentorja sem se odlocil da uporabim svoja znanja iz programiranja mikrokontrolerjev za izdelavo naprave, ki bi zaznala prihajajoco nevihto ter reagirala na to tako da bi manipulirala relejno stikalo, ter na ta nacin zascitilo elektronske naprave proti skodljivim vplivom elekticnega udara, ki ga povzroči udar strele. 
+Za zaznavo nevihte naj bi uporabil integrirano vezje as3935 proizvajalca ams. le ta uporablja lc paralelno zanko za resonancno anteno za zaznavo elektromagnetnega valovanja v frekvencnem pasu 33khz okoli sentralne frekvence 500khz. Pravilno kalibriran senzor naj bi v obtimalnih pogoji moral biti sposoben zaznati razelektritev v obliki strele v območju od 1km do 40km ter poročati z razdaljo 14 korakih v tem območju. 
+Ravno tako naj bi integrirano vezje znalo ločiti atmosferske razelektritve od tistih, ki izvirajo iz človeško ustvarjenih tehnoloških virov, ter na take motnje opozoriti.
+AS3935 obsega različne podmodule, le te je mogoče manipulirati z internimi registri dostop do njih pa imamo preko serijskih vodili i2c ter spi. Tekom razvoja in izvedbe projekta sem uporabil obe vodili. Omejitve so bile le, da ne smemo uporabiti osnovne frekvence 500khz ker bi le ta zmotila interni prepoznavni algoritem za zaznavo strele, ter da ne smemo preseči 2mhz. 
+
+Za izvedbo naprave, ki jo je potrebno vsaj do neke mere konfigurirati je ponavadi potrebno narediti uporabniški vmesnik, 
+kar najverjetneje obsega najmanj zaslon in tipke za nastavljanje različnih možnih nastavitev naprave. 
+Le ti dodatki pa dodajo k kompleksnosti proizvodnega procesa ter k ceni naprave. 
+Odločil sem se, da bom poskusil načrtovati ter izdelati prototip naprave z čim manj nepotrebnimi stroški, 
+zato se je izkazalo, da je idealna konfiguracija strojne opreme taka da omogoča nastavitev naprave preko spletnega uporabniškega vmesnika.
+
+Za tako odločitev je najbolj botrovalo dejstvo, da je v preteklem letu prišel na trg sistem na čipu ESP8266ex proizvajalca Espressif Systems. 
+Ker je omenjen mikrokontroler je relativno nov so razvojna orodja zanj v zgodnjih fazah razvoja. 
+Zaradi mladosti mikrokontrolerja mogoče ni ravno najboljša izbira za kritične sisteme, a ker se podporna programska oprema aktivno razvija je kjub vsemu še vedno zanimiv saj se stanje lahko le izboljša.  
+  
+Na začetku sem se lotil razvoja z NodeMcu ki temelji na eLua projektu. Lua je bila nova zame, zato sem se moral na začetku naučiti osnovnih principov programiranja v njej. Ker je močno spominjala na bash ter python nisem imel problemov z obvladovanjem novega jezika. A kaj hitro se je izkazalo da je NodeMcu ni ravno najbolj stabilna platforma in ne dovoljuje obtimalno uporabo sredstev, ki jih soc ponuja, zato sem bil prisiljen uporabiti alternativne metode.
+
+nekaj mesecev pred pricetkom razvoja projekta za diplomsko delo je na trg prislo integrirano vezje esp8266. Njegove zmoznosti obsegajo nekaj vhodno izhodnih "pinov" ter sposobnost "wlan komunikacije" (todo napiši pravilen protokol) kar je potebno za izvedbo cena delujocega modula pa zavedljivo nizka v primerjavi z ostalimi podobnimi resitvami. 
+
+Sprva se je esp8266 integrirano vezje uporabljalo le za omogocanje brezicne povezljivosti drugim mikrokrmilnikom z uporabo at ukazov... Kasneje pa je na hackadaym pricurljala novica, da je mozno pisati lastno programsko opremo z uporabo sdk. Omejitveni faktor pri uspešnosti pa je bila nepopolna in mnogokrat nedestopna dokumentacija, ter vsesplošno pomanjkanje kakršnjihkoli podatkov o samih registrih in informaciji kako jih uporabljati. 
+
+Odprtokodna skupnost je kot vedno skupila skupaj in ustvarila nove platforme, ki omogovajo uporabo esp8266 modulov zsamostojne naprave. Ena izmed prvih je bil micropython, a  žal ni nikoli prisla do popolno delojocega prototipa, ki bi mi lahko omogocala izvidbo projekta. 
+Bolj ali manj enakocasno je nastal malce vecji projekt nodemcu, ki uporablja programski jezik lua ali bolje receno elua, ki je bila razvita za arm cortex m3 ali vecje mikrokontrolerje. 
+
+Načrtovanje in izdelava vgrajene programske opreme 
+
+Po predlogu mentorja sem uporabil nodemcu za prve prototipe, uporabil sem i2c protokol za komunikacijo z as3935, hkrati pa sem še omogočal konfiguracijo razdalje ter časa z uporabo spletne strani. A takoj ko sem skušal dodati še kako funcijonalnost sem prišel do zelo nadležnega dejstva, da mi je zmanjkalo pomnilnika. Ravno tako sem prišel do dejstva da je celoten sistem ni bil stabilen saj se je večkrat zaradi napakk znotrej nodemcu sam od sebe resetiral. 
+
+V času ko sem se trudil uporabiti lua je proizvajalec esp8266 espressif pospešil razvoj sdk ter odpravil veliko ključnih hroščov. To me je prepričalo, da sem fokus preusmeril na nativno programiranje z sdk. Sprva sem rako kot pri nodemcu uporabljal i2c ter sproti generiral spletno stran in jo preko tcp povezav pošiljal iz esp8266 k uporabniku ki je potem lahko z kliki na povezave določal parametre kako naj se sistem obnaša. Ampak ker esp8266 ne podpira strojne i2c kominikacije so bili rezultati zelo podobni kot pri nodemcu, saj je bila komunikacija blocking in je posledično sistemski čuvaj (watchdog) resetiral sistem še predno bi bila zgenerirana in poslana celotna spletna stran. 
+
+todo: vstavi sliko spletne strani
+ 
+K sreči so se istočasno po svetu pojavili različni odprtokodni projekti, ki so vsak po svoje reševali podobne probleme kot tisti z katerimi sem se srečeval. Posledično sem jih uporabil in se rešil nekaterih bremen v razvoju. Med prvimi je nastal esphttpd projekt, ki se je kasneje preoblikoval v samostojno knjižnico libesphttpd, ki omogoča objavo spletnih strani na esp8266, razvijalca so celo zaposlili na espressif. 
+Podobno sem kasneje na githubu našel spi knjižnico, ki mi je olajšala komunikacijo z as3935. Saj so do sedanji primeri uporabe hspi bili namenjeni le pisanju(lcd zaslon) ne pa tudi branju. 
+
+Ker dosednji prototipi niso pokazali pravega napredka sem se odlocil da se projekta lottim bolj modularno z uporabo knjižnice libesphttpd ter omenjenega hspi gonilnika. Problemov sem se lotil tudi bolj sistematično kot v dosedanjih prototipih in veliko hitreje razvil programsko kodo za napravo z uporabo hspi vodila. Protokolni gonilnik za as3935 je za jedro uporabil strukturo unij, ki so kot prvo mapirale naslove za branje in pisanje po registrih as3935. Drug del unij pa je mapiral dejanske logične vrednosti z uporabo bitnih polj, ki jih vrednosti v registrih ponazarjale. Tako sem lahko veliko lažje dostopal in interpretiral vrednosti iz as3935. Brez zamudnega kodiranja bitnih operacij z bitnimi maskami ter makriji za interpretacijo informacij iz registrov. 
+
+po nazoru primera uporabe esphttpd sem izdelal novo spletno stran z vsemimi moznostmi ki naj bi lih na napravi spreminjal koncni uporabnik. sistematicno sem razvil nov protokolni gonilnik za as3935 ki je uporabil kodo iz prejsnjega prototipa, a uporabil podatkovno strukturo unij ki so ponazarjale informacije iz as3935 potem sem se lotil razvoja funkcij ki so delovale kot glue logika med gumbi na  spletni strani in informacijami iz as3935. te funkcine so morale zaznati kater ukaz je uporabnik kliknil ter posodobiti informacije na spletni strani glede na stanje naprave senzorja neviht na njej.
+
+ves cas sem moral gledati na to da se vsaka funkcija izvede hitro saj v času razvoja programske opreme esp-sdk še ni omogočal začasnega izklopa watchdoga. Ob posodobitvi sdk je bilo to mogoce. Kar mi je omogočalo razvoj kompleksnejsih funkcij. 
+
+Med časom razvoja sem si pomagal z orodjem git, ki mi je omogočalo pregledovati spremembe v dokumentih. A na žalost mi je nekje v sredini razvoja odpovedal domači server, zato sem se odločil da nadaljujem z storitijo github. 
+
+
+Preizkušanje 
+
+
+
