@@ -131,8 +131,10 @@ os_event_t    procTaskQueue[procTaskQueueLen];
 //6 in detection treshold < distance //off
 static void ICACHE_FLASH_ATTR procTask(os_event_t *events)
 {
-	uint8_t tmp[1000];//output buffer
-	
+	//uint8_t tmp[1000];//output buffer
+	if(GPIO_INPUT_GET(GPIO_ID_PIN(INT_PIN))){//instead of interrupt just read
+		pending_interrupt();
+	}
 	//reschedule
 	system_os_post(procTaskPrio, 0, 0 );
 	if(tick_flag==1){

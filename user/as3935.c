@@ -88,6 +88,7 @@ void  ICACHE_FLASH_ATTR as3935_chip_read(){
 	HSPI_INIT_STUF;
 	
 	for(chip=0;chip<9;chip++){
+		system_soft_wdt_feed();
 		switch(chip){
 			case 0:
 				as3935.x0.d0 = spi_read(chip);

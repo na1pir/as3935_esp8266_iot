@@ -45,7 +45,7 @@
 
 
 
-#define HSPI_INIT_STUF 	{spi_init(HSPI);spi_init_gpio(HSPI, SPI_CLK_USE_DIV);spi_tx_byte_order(HSPI, SPI_BYTE_ORDER_HIGH_TO_LOW);spi_rx_byte_order(HSPI, SPI_BYTE_ORDER_HIGH_TO_LOW);} 
+#define HSPI_INIT_STUF 	{spi_init(HSPI);spi_init_gpio(HSPI, SPI_CLK_USE_DIV);spi_tx_byte_order(HSPI, SPI_BYTE_ORDER_HIGH_TO_LOW);spi_rx_byte_order(HSPI, SPI_BYTE_ORDER_HIGH_TO_LOW);WRITE_PERI_REG(SPI_CTRL2(HSPI), 2<<SPI_MOSI_DELAY_MODE_S);} 
 
 #define GPIO_OUTPUT_SET(gpio_no, bit_value)	gpio_output_set(bit_value<<gpio_no, ((~bit_value)&0x01)<<gpio_no, 1<<gpio_no,0)
 //spi_transaction(spi_no, cmd_bits, cmd_data, addr_bits, addr_data, dout_bits, dout_data, din_bits, dummy_bits)
