@@ -83,7 +83,7 @@ U 1 1 55C73EF0
 P 1400 1400
 F 0 "R2" V 1480 1400 50  0000 C CNN
 F 1 "R" V 1400 1400 50  0000 C CNN
-F 2 "Resistors_SMD:R_0805_HandSoldering" V 1330 1400 30  0001 C CNN
+F 2 "Resistors_Universal:Resistor_SMD+THTuniversal_0805to1206_RM10_HandSoldering" V 1330 1400 30  0001 C CNN
 F 3 "" H 1400 1400 30  0000 C CNN
 	1    1400 1400
 	1    0    0    -1  
@@ -350,7 +350,7 @@ U 1 1 55C762B6
 P 6650 850
 F 0 "R3" V 6730 850 50  0000 C CNN
 F 1 "R" V 6650 850 50  0000 C CNN
-F 2 "Resistors_SMD:R_0805_HandSoldering" V 6580 850 30  0001 C CNN
+F 2 "Resistors_Universal:Resistor_SMD+THTuniversal_0805to1206_RM10_HandSoldering" V 6580 850 30  0001 C CNN
 F 3 "" H 6650 850 30  0000 C CNN
 	1    6650 850 
 	1    0    0    -1  
@@ -677,7 +677,7 @@ U 1 1 55C7E787
 P 1050 5650
 F 0 "R1" V 1130 5650 50  0000 C CNN
 F 1 "R" V 1050 5650 50  0000 C CNN
-F 2 "Resistors_SMD:R_0805_HandSoldering" V 980 5650 30  0001 C CNN
+F 2 "Resistors_Universal:Resistor_SMD+THTuniversal_0805to1206_RM10_HandSoldering" V 980 5650 30  0001 C CNN
 F 3 "" H 1050 5650 30  0000 C CNN
 	1    1050 5650
 	1    0    0    -1  
@@ -935,7 +935,7 @@ U 1 1 55C73F5A
 P 1150 1400
 F 0 "C1" H 1175 1500 50  0000 L CNN
 F 1 "C" H 1175 1300 50  0000 L CNN
-F 2 "Capacitors_SMD_local:C_0805_HandSoldering" H 1188 1250 30  0001 C CNN
+F 2 "Resistors_Universal:Resistor_SMD+THTuniversal_0805to1206_RM10_HandSoldering" H 1188 1250 30  0001 C CNN
 F 3 "" H 1150 1400 60  0000 C CNN
 	1    1150 1400
 	1    0    0    -1  
@@ -946,7 +946,7 @@ U 1 1 55C775E6
 P 2050 1500
 F 0 "C2" H 2075 1600 50  0000 L CNN
 F 1 "C" H 2075 1400 50  0000 L CNN
-F 2 "Capacitors_SMD_local:C_0805_HandSoldering" H 2088 1350 30  0001 C CNN
+F 2 "Resistors_Universal:Resistor_SMD+THTuniversal_0805to1206_RM10_HandSoldering" H 2088 1350 30  0001 C CNN
 F 3 "" H 2050 1500 60  0000 C CNN
 	1    2050 1500
 	1    0    0    -1  
@@ -1212,11 +1212,11 @@ Wire Wire Line
 Wire Wire Line
 	1050 5400 1050 5500
 Wire Wire Line
-	850  5900 1250 5900
+	600  5900 1250 5900
 Wire Wire Line
 	1250 6300 1250 6100
 Wire Wire Line
-	850  6300 1250 6300
+	600  6300 1250 6300
 Wire Wire Line
 	1050 6300 1050 6400
 Connection ~ 1050 6300
@@ -1341,4 +1341,17 @@ F 3 "" H 4500 800 60  0000 C CNN
 $EndComp
 Wire Wire Line
 	4500 800  4500 750 
+Connection ~ 850  6300
+Connection ~ 850  5900
+$Comp
+L LED D4
+U 1 1 55CB35A7
+P 600 6100
+F 0 "D4" H 600 6200 50  0000 C CNN
+F 1 "LED" H 600 6000 50  0000 C CNN
+F 2 "LEDs:LED-3MM" H 600 6100 60  0001 C CNN
+F 3 "" H 600 6100 60  0000 C CNN
+	1    600  6100
+	0    -1   -1   0   
+$EndComp
 $EndSCHEMATC
