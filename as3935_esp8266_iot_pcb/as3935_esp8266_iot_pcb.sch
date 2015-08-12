@@ -1354,4 +1354,34 @@ F 3 "" H 600 6100 60  0000 C CNN
 	1    600  6100
 	0    -1   -1   0   
 $EndComp
+$Comp
+L BC849 Q2
+U 1 1 55CB5399
+P 1900 6500
+F 0 "Q2" H 2100 6575 50  0000 L CNN
+F 1 "BC849" H 2100 6500 50  0000 L CNN
+F 2 "Transistors_SMD:sc70" H 2100 6425 50  0000 L CIN
+F 3 "" H 1900 6500 50  0000 L CNN
+	1    1900 6500
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	1900 6100 1900 6300
+Wire Wire Line
+	1900 6300 1700 6300
+Wire Wire Line
+	1700 6300 1700 6500
+Connection ~ 1900 6100
+Wire Wire Line
+	2050 5900 2050 6300
+Wire Wire Line
+	2050 6300 2000 6300
+Connection ~ 2050 5900
+Wire Wire Line
+	2000 6700 2200 6700
+Wire Wire Line
+	2200 6700 2200 6450
+Wire Wire Line
+	2200 6450 2300 6450
+Connection ~ 2300 6450
 $EndSCHEMATC
