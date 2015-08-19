@@ -24,20 +24,15 @@
       (path pcb 0  20000 -130000  70000 -130000  70000 -30000  20000 -30000
             20000 -130000  20000 -130000)
     )
-    (keepout "" (polygon B.Cu 0  70000 -80000  20000 -80000  20000 -79800  70000 -79800
-            70000 -80000))
-    (keepout "" (polygon F.Cu 0  70000 -80000  20000 -80000  20000 -79800  70000 -79800
-            70000 -80000))
-    (keepout "" (polygon B.Cu 0  70000 -54600  70000 -69600  67600 -68400  65000 -68400
-            63200 -66000  64600 -65800  65600 -67000  69600 -67000  69600 -65000
-            65800 -65000  64600 -64200  64600 -61000  64600 -59200  65800 -57800
-            69600 -57800  69600 -55600  65800 -55600  65600 -57000  61800 -60400
-            62400 -55000  63600 -54600  68800 -54400  70000 -53400  70000 -54600))
-    (keepout "" (polygon F.Cu 0  70000 -54600  70000 -69600  67600 -68400  65000 -68400
-            63200 -65800  64600 -65800  65600 -67000  69600 -67000  69600 -65000
-            65800 -65000  64600 -64200  64600 -59200  65800 -57800  65800 -57800
-            69600 -57800  69600 -55600  65800 -55600  65600 -57000  61800 -60400
-            62400 -55000  63600 -54600  68800 -54400  70000 -53400  70000 -54600))
+    (keepout "" (polygon F.Cu 0  69800 -68000  62400 -68000  60800 -66400  59800 -66400
+            59800 -60600  61200 -59200  61200 -55200  69800 -55200  69800 -68000))
+    (keepout "" (polygon B.Cu 0  69800 -68000  62400 -68000  60800 -66400  59800 -66400
+            59800 -60600  61200 -59200  61200 -55200  69800 -55200  69800 -68000))
+    (keepout "" (polygon F.Cu 0  20000 -80000  27600 -80000  70000 -80000))
+    (keepout "" (polygon B.Cu 0  70000 -80200  20000 -80200  20000 -79800  70000 -79800
+            70000 -80200))
+    (keepout "" (polygon F.Cu 0  70000 -80200  20000 -80200  20000 -79800  70000 -79800
+            70000 -80200))
     (via "Via[0-1]_600:400_um")
     (rule
       (width 250)
@@ -47,6 +42,10 @@
     )
   )
   (placement
+    (component ESP8266:relay
+      (place K2 54400 -96200 front 270 (PN RELAY_2RT))
+      (place K1 35200 -96200 front 270 (PN RELAY_2RT))
+    )
     (component "LEDs:LED-0603"
       (place D1 54600 -70800 front 180 (PN LED))
     )
@@ -111,10 +110,6 @@
       (place C3 31000 -60400 front 270 (PN C))
       (place C4 31000 -68200 front 90 (PN C))
     )
-    (component ESP8266:relay
-      (place K1 35200 -96200 front 270 (PN RELAY_2RT))
-      (place K2 54400 -96200 front 270 (PN RELAY_2RT))
-    )
     (component Capacitors_SMD:C_0805_HandSoldering
       (place C1 60200 -63400 front 270 (PN C))
       (place C2 60200 -68800 front 180 (PN C))
@@ -141,6 +136,38 @@
     )
   )
   (library
+    (image ESP8266:relay
+      (outline (path signal 150  15000 -7700  18300 -7700))
+      (outline (path signal 150  18300 -7700  18300 7700))
+      (outline (path signal 150  18300 7700  14950 7700))
+      (outline (path signal 150  -1300 -1350  -1300 -7700))
+      (outline (path signal 150  -1300 -7700  13250 -7700))
+      (outline (path signal 150  -1300 1400  -1300 7700))
+      (outline (path signal 150  -1300 7700  13450 7700))
+      (outline (path signal 150  -1300 7650  -1300 1400))
+      (outline (path signal 150  14150 -4200  14150 -1750))
+      (outline (path signal 150  14150 4200  14150 1700))
+      (outline (path signal 150  3550 -6050  6050 -6050))
+      (outline (path signal 150  2650 -50  1850 -50))
+      (outline (path signal 150  6050 5950  3550 5950))
+      (outline (path signal 150  9450 -50  10950 -50))
+      (outline (path signal 150  10950 -50  15550 2450))
+      (outline (path signal 150  9450 -3650  2650 -3650))
+      (outline (path signal 150  9450 -50  9450 -3650))
+      (outline (path signal 150  2650 -50  2650 -3650))
+      (outline (path signal 150  6050 5950  6050 1750))
+      (outline (path signal 150  6050 -1850  6050 -6050))
+      (outline (path signal 150  8050 -1850  4050 1750))
+      (outline (path signal 150  4050 -1850  4050 1750))
+      (outline (path signal 150  4050 1750  8050 1750))
+      (outline (path signal 150  8050 1750  8050 -1850))
+      (outline (path signal 150  8050 -1850  4050 -1850))
+      (pin Round[A]Pad_2500_um (rotate 90) 8 1950 -6050)
+      (pin Round[A]Pad_3000_um (rotate 90) 3 14150 -6050)
+      (pin Round[A]Pad_3000_um (rotate 90) 1 14200 6000)
+      (pin Round[A]Pad_2500_um (rotate 90) 9 1950 5950)
+      (pin Round[A]Pad_3000_um (rotate 90) 5 0 0)
+    )
     (image "LEDs:LED-0603"
       (outline (path signal 150  -1100 -550  800 -550))
       (outline (path signal 150  -1100 550  800 550))
@@ -580,38 +607,6 @@
       (pin Rect[A]Pad_1300x1300_um 1 0 0)
       (pin Round[A]Pad_1300_um 2 2000 0)
     )
-    (image ESP8266:relay
-      (outline (path signal 150  15000 -7700  18300 -7700))
-      (outline (path signal 150  18300 -7700  18300 7700))
-      (outline (path signal 150  18300 7700  14950 7700))
-      (outline (path signal 150  -1300 -1350  -1300 -7700))
-      (outline (path signal 150  -1300 -7700  13250 -7700))
-      (outline (path signal 150  -1300 1400  -1300 7700))
-      (outline (path signal 150  -1300 7700  13450 7700))
-      (outline (path signal 150  -1300 7650  -1300 1400))
-      (outline (path signal 150  14150 -4200  14150 -1750))
-      (outline (path signal 150  14150 4200  14150 1700))
-      (outline (path signal 150  3550 -6050  6050 -6050))
-      (outline (path signal 150  2650 -50  1850 -50))
-      (outline (path signal 150  6050 5950  3550 5950))
-      (outline (path signal 150  9450 -50  10950 -50))
-      (outline (path signal 150  10950 -50  15550 2450))
-      (outline (path signal 150  9450 -3650  2650 -3650))
-      (outline (path signal 150  9450 -50  9450 -3650))
-      (outline (path signal 150  2650 -50  2650 -3650))
-      (outline (path signal 150  6050 5950  6050 1750))
-      (outline (path signal 150  6050 -1850  6050 -6050))
-      (outline (path signal 150  8050 -1850  4050 1750))
-      (outline (path signal 150  4050 -1850  4050 1750))
-      (outline (path signal 150  4050 1750  8050 1750))
-      (outline (path signal 150  8050 1750  8050 -1850))
-      (outline (path signal 150  8050 -1850  4050 -1850))
-      (pin Round[A]Pad_2500_um (rotate 90) 8 1950 -6050)
-      (pin Round[A]Pad_3000_um (rotate 90) 3 14150 -6050)
-      (pin Round[A]Pad_3000_um (rotate 90) 1 14200 6000)
-      (pin Round[A]Pad_2500_um (rotate 90) 9 1950 5950)
-      (pin Round[A]Pad_3000_um (rotate 90) 5 0 0)
-    )
     (image Capacitors_SMD:C_0805_HandSoldering
       (outline (path signal 50  -2300 1000  2300 1000))
       (outline (path signal 50  -2300 -1000  2300 -1000))
@@ -818,7 +813,7 @@
       (pins U2-1 C2-2)
     )
     (net +5V
-      (pins D2-1 P6-3 P8-4 U1-4 U5-3 C3-1 K1-8 K2-8 D3-1 P7-4 P10-2)
+      (pins K2-8 D2-1 P6-3 P8-4 U1-4 U5-3 C3-1 K1-8 D3-1 P7-4 P10-2)
     )
     (net +3V3
       (pins vcc-1 P5-1 P6-1 U2-5 U2-6 U3-3 U3-8 U4-10 U4-11 U4-17 U4-26 U5-2 U5-2@1
@@ -852,13 +847,13 @@
       (pins P2-1 K1-1)
     )
     (net "Net-(K2-Pad3)"
-      (pins P3-2 K2-3)
+      (pins K2-3 P3-2)
     )
     (net "Net-(K2-Pad5)"
-      (pins P1-1 K2-5)
+      (pins K2-5 P1-1)
     )
     (net "Net-(K2-Pad1)"
-      (pins P2-2 K2-1)
+      (pins K2-1 P2-2)
     )
     (net /irq
       (pins vcc-5 P5-3 U2-10 U3-14 U4-9 IRQ-1 IRQ-1@1)
@@ -897,17 +892,15 @@
       (pins U1-3 P7-1 P10-1 R6-2)
     )
     (net "Net-(D3-Pad2)"
-      (pins Q1-2 K2-9 D3-2)
+      (pins K2-9 Q1-2 D3-2)
     )
     (net "Net-(Q1-Pad1)"
       (pins Q1-1 Q2-1 R6-1)
     )
     (class kicad_default "" +3V3 +5V /adc /add0 /add1 /clk /cs /flash /irq
       /miso /mosi /reset /rx /si /to_sw /to_switch /tx GND "Net-(C1-Pad2)"
-      "Net-(C2-Pad2)" "Net-(D1-Pad2)" "Net-(D2-Pad2)" "Net-(D3-Pad2)" "Net-(P8-Pad1)"
-      "Net-(P8-Pad6)" "Net-(P9-Pad1)" "Net-(Q1-Pad1)" "Net-(U2-Pad14)" "Net-(U3-Pad4)"
-      "Net-(U4-Pad18)" "Net-(U4-Pad3)" "Net-(U4-Pad4)" "Net-(U4-Pad5)" "Net-(U4-Pad6)"
-      "Net-(U4-Pad7)" "Net-(U4-Pad8)"
+      "Net-(C2-Pad2)" "Net-(D1-Pad2)" "Net-(D2-Pad2)" "Net-(D3-Pad2)" "Net-(P9-Pad1)"
+      "Net-(Q1-Pad1)"
       (circuit
         (use_via Via[0-1]_600:400_um)
       )
@@ -923,15 +916,15 @@
       )
       (rule
         (width 2000)
-        (clearance 600.1)
+        (clearance 650.1)
       )
     )
   )
   (wiring
-    (wire (path F.Cu 250  67600 -66000  65600 -66000)(net "Net-(C1-Pad2)")(type protect))
-    (wire (path F.Cu 250  64600 -65000  63450 -65000)(net "Net-(C1-Pad2)")(type protect))
-    (wire (path F.Cu 250  65600 -66000  64600 -65000)(net "Net-(C1-Pad2)")(type protect))
-    (wire (path F.Cu 250  63450 -65000  63200 -64750)(net "Net-(C1-Pad2)")(type protect))
-    (wire (path F.Cu 250  67600 -56700  66500 -56700  63200 -60000  63200 -62050)(net GND)(type protect))
+    (wire (path F.Cu 250  60200 -64650  57825 -64650  57800 -64675)(net "Net-(C1-Pad2)")(type protect))
+    (wire (path F.Cu 250  63200 -64750  60300 -64750  60200 -64650)(net "Net-(C1-Pad2)")(type protect))
+    (wire (path F.Cu 250  67600 -66000  66600 -66000  65350 -64750  63200 -64750)(net "Net-(C1-Pad2)")(type protect))
+    (wire (path F.Cu 250  67600 -56700  67600 -57650  63200 -62050  60300 -62050  58325 -64025
+            57800 -64025)(net GND)(type protect))
   )
 )
