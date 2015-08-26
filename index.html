@@ -53,11 +53,11 @@ bitcoins: 1MaGphnuiMjywjQPKHKF239wzcef4KpNxX if you wish:)</p>
 <h2>
 <a id="what-it-is" class="anchor" href="#what-it-is" aria-hidden="true"><span class="octicon octicon-link"></span></a>What it is?</h2>
 
-<p>Well this thing uses som crazy trikery from ams... and lovely soc from espressif... 
-OK as3935 it not so simple chip that uses antena tunned to 500khz to detect lightning discarges.
-It mesures amplitude and uses some crazy statistics to determine distance from face of the thunderstorm.
-Well I added a bit of trikery of my own to libesphttpd and used spi driver to talk to as3935 with esp8266.
-When you mix everything together add coule of pasives transistor, optocoupler and relay you got a switch that disangages relay when we detect nearby thunderstorm. </p>
+<p>Well this thing uses some crazy trickery from ams... and lovely soc from espressif... 
+OK as3935 it not so simple chip that uses antenna tuned to 500khz to detect lightning discharges.
+It measures amplitude and uses some crazy statistics to determine distance from face of the thunderstorm.
+Well I added a bit of trickery of my own to libesphttpd and used spi driver to talk to as3935 with esp8266.
+When you mix everything together add couple of passives transistor, optotransistor and relay you got a switch that disengages relay when it detect nearby thunderstorm. </p>
 
 <p>This is my baby and so work in progress and will probably newer be perfect.</p>
 
@@ -81,13 +81,13 @@ When you mix everything together add coule of pasives transistor, optocoupler an
 
 <ol>
 <li>get yourself working esp-open-sdk + newer sdk from espressif and link it to esp-open-sdk/sdk </li>
-<li>aditionaly get working sprite_fm libesphttpd and cats/led example so you can check and update any changes... </li>
+<li>additionally get working sprite_fm libesphttpd and cats/led example so you can check and update any changes... </li>
 <li>
 <p>find spi driver from MetalPhreak and check that example</p>
 
 <ul>
-<li><p>I shuld add everithing as git submodules, but as of now i don't know how...</p></li>
-<li><p>make sure to export your esp-open-sdk/xtensa-lx106-elf/bin path to system path... additionaly export esp-open-sdk/sdk as SDK_BASE, then ESPTOOL... in ubuntu it is best to do it in .profile  </p></li>
+<li><p>I should add everything as git sub-modules, but as of now I don't know how...</p></li>
+<li><p>make sure to export your esp-open-sdk/xtensa-lx106-elf/bin path to system path... additionally export esp-open-sdk/sdk as SDK_BASE, then ESPTOOL... in ubuntu it is best to do it in .profile  </p></li>
 </ul>
 </li>
 <li>
@@ -96,19 +96,19 @@ When you mix everything together add coule of pasives transistor, optocoupler an
 <p><strong>make clean all</strong></p>
 </li>
 <li>
-<p>put esp into boot mode (i have reset and boot(rst and gpio0 respectivly to gnd) buttons soldered into my board) so press reset and boot then lift reset first then boot and run</p>
+<p>put esp into boot mode (i have reset and boot(rst and gpio0 respectively to gnd) buttons soldered into my board) so press reset and boot then lift reset first then boot and run</p>
 
 <p><strong>make burn</strong> 
 or 
 <strong>sudo make burn</strong> 
-if your dialout permision thingy stufs aren't setup properly</p>
+if your dial-out permission thingy stuffs aren't setup properly</p>
 </li>
 <li>
 <p>for debbuging</p>
 
 <p><strong>make tty</strong></p>
 </li>
-<li><p>setup geany for above commnds it will save you lots of time</p></li>
+<li><p>setup geany for above commands it will save you lots of time</p></li>
 </ol>
 
 <p><em>todo: fix all issues</em></p>
