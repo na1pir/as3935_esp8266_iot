@@ -98,7 +98,7 @@ Calibration(will turn relay device off) calibration steps: <button type="button"
 <button type="button" onclick="alert('use osciloscope or frequency counter to probe irq_pin, and adjusting TUN_CAP so that you will get as close as possible to 31.25khz')">2</button>
 <br>
 </p> 
-<p>TUN_CAP - internal tunning variable capacitor: %TUN_CAP% &micro;F</p>  
+<p>TUN_CAP - internal tunning variable capacitor: %TUN_CAP% pF</p>  
 <p>
 <form method="post" action="as3935.cgi">
 <input type="submit" name="cap" value=0>
