@@ -1,5 +1,5 @@
 /*
- * Uroš Golob <golob.uros@gmail.com> wrote this file.
+ * Copyright (C) 2015 Uroš Golob <golob.uros@gmail.com>
  * 
  * Work was done with intention to protect electronic devices and so lower e-waste.
  * It might work or it may not, just don't sue me if your house burns down or if it kills you...
@@ -7,14 +7,14 @@
  * This software and hardware is described in my diploma thesis(work in progress). 
  *   
  * Use it for personal use as you wish, just keep this notice on it if you do! 
- * And return changes back free of charge by same restrictions and notice! 
+ * And return changes back free of charge by same restrictions and this notice! 
  * 
- * For comercial use you can contact me and we can make a deal...
+ * For comercial use you can contact me and we can make apropriate licencing deal...
  *
  * Development took alot of time and money so remember me with some spare 
  * bitcoins: 1MaGphnuiMjywjQPKHKF239wzcef4KpNxX if you wish:)
  * 
- * This software uses espressif sdk software, spi library from David Ogilvy(MetalPhreak) and libesphttpd & wifi settins form Jeroen Domburg(sprite_fm). So use and rescpect their respective licencies for their work. 
+ * This software uses espressif sdk software, spi library from David Ogilvy(MetalPhreak) and libesphttpd & wifi settins from Jeroen Domburg(sprite_fm). So use and rescpect their respective licencies for their work. 
  */
 
 #include <esp8266.h>
@@ -39,14 +39,12 @@ void save_settings(){
 	if(SPI_FLASH_RESULT_OK==spi_flash_erase_sector (0x3e)){
 		
 		if(SPI_FLASH_RESULT_OK==spi_flash_write(0x3E000, (uint32 *)addr, 8)){
-
-  	}else{
+		os_printf("data writen to flash\n");
+		}else{
   		os_printf("error data not writen to flash\n");
-  	}
+		}
   		 //writing data
-	}
-
-  		
+	}	
 }
  
  
@@ -74,10 +72,10 @@ void load_setings(){
 		spi_write(1,as3935.x1.d1);
 		spi_write(2,as3935.x2.d2);
 		spi_write(8,as3935.x8.d8);
-	}
-	else{
-		os_printf("error data not loaded from device because there is no settings saved\n");
 		}
+		else{
+			os_printf("error data not loaded from device because there is no settings saved\n");
+			}
   	}else{
   		os_printf("error data not writen to flash\n");
   	}
