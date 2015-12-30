@@ -205,7 +205,6 @@ void spi_rx_byte_order(uint8 spi_no, uint8 byte_order){
 uint32 spi_transaction(uint8 spi_no, uint8 cmd_bits, uint16 cmd_data, uint32 addr_bits, uint32 addr_data, uint32 dout_bits, uint32 dout_data,
 				uint32 din_bits, uint32 dummy_bits){
 
-	//uart0_sendStr("spi\n");
 	if(spi_no > 1) return 0;  //Check for a valid SPI 
 
 	//code for custom Chip Select as GPIO PIN here

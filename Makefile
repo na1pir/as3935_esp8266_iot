@@ -19,9 +19,10 @@ SDK_BASE	?= ~/bin/esp8266/esp-open-sdk/sdk/
 
 #Esptool.py path and port
 ESPTOOL		?= ~/bin/esp8266/esp-open-sdk/xtensa-lx106-elf/bin/esptool.py
-ESPPORT		?= /dev/ttyUSB1
-
-
+#ESPPORT		?= /dev/ttyUSB3
+#ESPPORT                ?= /dev/ttyUSB2
+#ESPPORT                ?= /dev/ttyUSB1
+ESPPORT                ?= /dev/ttyUSB0
 #ESPDELAY indicates seconds to wait between flashing the two binary images
 ESPDELAY	?= 3
 ESPBAUD		?= 115200

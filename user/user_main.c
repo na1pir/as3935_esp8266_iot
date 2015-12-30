@@ -1,5 +1,5 @@
 /*
- * Uroš Golob <golob.uros@gmail.com> wrote this file.
+ * Copyright (C) 2015 Uroš Golob <golob.uros@gmail.com>
  * 
  * Work was done with intention to protect electronic devices and so lower e-waste.
  * It might work or it may not, just don't sue me if your house burns down or if it kills you...
@@ -7,14 +7,14 @@
  * This software and hardware is described in my diploma thesis(work in progress). 
  *   
  * Use it for personal use as you wish, just keep this notice on it if you do! 
- * And return changes back free of charge by same restrictions and notice! 
+ * And return changes back free of charge by same restrictions and this notice! 
  * 
- * For comercial use you can contact me and we can make a deal...
+ * For comercial use you can contact me and we can make apropriate licencing deal...
  *
  * Development took alot of time and money so remember me with some spare 
  * bitcoins: 1MaGphnuiMjywjQPKHKF239wzcef4KpNxX if you wish:)
  * 
- * This software uses espressif sdk software, spi library from David Ogilvy(MetalPhreak) and libesphttpd & wifi settins form Jeroen Domburg(sprite_fm). So use and rescpect their respective licencies for their work. 
+ * This software uses espressif sdk software, spi library from David Ogilvy(MetalPhreak) and libesphttpd & wifi settins from Jeroen Domburg(sprite_fm). So use and rescpect their respective licencies for their work. 
  */
  #include <stdint.h>
 #include <esp8266.h>
@@ -105,13 +105,13 @@ uint64_t seconds_from_boot=0;
 void ICACHE_FLASH_ATTR ticker_timer(void *arg)
 {
 	tick_flag=1;
-	if(state_machine>2){
+	if(state_machine>4){//2
 		in_detection_counter++;//this is reseted in solid state machine 6
 	}
 	seconds_from_boot++;
-	if(seconds_from_boot%15==0){
+	//if(seconds_from_boot%15==0){
 		os_printf("Heap: %ld\nAFE_GB[%d],NF_LEV[%d],WDTH[%d],MIN_NUM_LIGH[%d],SREJ[%d],INT[%d],LCO_FDIV[%d],MASK_DIST[%d],DISTANCE[%d],TUN_CAP[%d], STATE[%d]\n",(unsigned long)system_get_free_heap_size(),as3935.x0.a0.AFE_GB,as3935.x1.a1.NF_LEV,as3935.x1.a1.WDTH,as3935.x2.a2.MIN_NUM_LIGH,as3935.x2.a2.SREJ,as3935.x3.a3.INT,as3935.x3.a3.LCO_FDIV,as3935.x3.a3.MASK_DIST,as3935.x7.a7.DISTANCE,as3935.x8.a8.TUN_CAP,state_machine);
-	}
+	//}
 }
 
 
@@ -131,12 +131,11 @@ os_event_t    procTaskQueue[procTaskQueueLen];
 //6 in detection treshold < distance //off
 static void ICACHE_FLASH_ATTR procTask(os_event_t *events)
 {
-	//uint8_t tmp[1000];//output buffer
-	if(GPIO_INPUT_GET(GPIO_ID_PIN(INT_PIN))){//instead of interrupt just read
-		pending_interrupt();
-	}
+
 	//reschedule
 	system_os_post(procTaskPrio, 0, 0 );
+	
+	
 	if(tick_flag==1){
 		//todo if interrups start to work anytime soon you only read periodicly when in detection 
 		if(tock==1){
@@ -145,10 +144,14 @@ static void ICACHE_FLASH_ATTR procTask(os_event_t *events)
 			}
 			tock=0;
 		}
-		else{
+		else{//alternative to interrupts
+		if(GPIO_INPUT_GET(GPIO_ID_PIN(INT_PIN))){//instead of interrupt just read
+			pending_interrupt();
+		}
 			tock=1;
-			if(state_machine>2){//alternative to interrupts
+			if(state_machine>2){
 				if(as3935.x7.a7.DISTANCE<threshold_distance){
+					uart0_sendStr("atention:\n");
 					state_machine=6;
 				}
 			}
@@ -159,7 +162,7 @@ static void ICACHE_FLASH_ATTR procTask(os_event_t *events)
 		if(interrupt_flag){
 			clear_interrupt();
 			interrupt_flag=0;
-			return;
+			//return;
 		}
 		
 		if(state_machine==6){
@@ -171,10 +174,10 @@ static void ICACHE_FLASH_ATTR procTask(os_event_t *events)
 				GPIO_OUTPUT_SET(GPIO_ID_PIN(RELAY_PIN),0);//off
 				in_detection_counter=0; //reset counter
 				uart0_sendStr("danger\n");
-				return;
+				//return;
 			}else {
 				state_machine=5;
-				return;
+				//return;
 			}
 		}
 		
@@ -186,7 +189,7 @@ static void ICACHE_FLASH_ATTR procTask(os_event_t *events)
 					state_machine=4;	
 			}
 			uart0_sendStr("awaiting timeout\n");
-			return;
+			//return;
 		}
 		
 		if(state_machine==4){
@@ -198,7 +201,7 @@ static void ICACHE_FLASH_ATTR procTask(os_event_t *events)
 				state_machine=3;
 				
 				uart0_sendStr("thunderstorm passed\n");
-				return;
+				//return;
 			}
 		}
 

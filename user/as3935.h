@@ -1,21 +1,20 @@
 /*
- * Uroš Golob <golob.uros@gmail.com> wrote this file.
+ * Copyright (C) 2015 Uroš Golob <golob.uros@gmail.com>
  * 
  * Work was done with intention to protect electronic devices and so lower e-waste.
  * It might work or it may not, just don't sue me if your house burns down or if it kills you...
  * 
  * This software and hardware is described in my diploma thesis(work in progress). 
- * When it will be finished and published you can read it but just learn Slovenian first if you wish to read it:)
- *  
- * Use it for personal use as you will, just keep this notice on it if you do! 
- * And return changes back free of charge by same restrictions and notice! 
+ *   
+ * Use it for personal use as you wish, just keep this notice on it if you do! 
+ * And return changes back free of charge by same restrictions and this notice! 
  * 
- * For comercial use you can contact me and we can make a deal...
+ * For comercial use you can contact me and we can make apropriate licencing deal...
  *
  * Development took alot of time and money so remember me with some spare 
  * bitcoins: 1MaGphnuiMjywjQPKHKF239wzcef4KpNxX if you wish:)
  * 
- * This software uses expresif sdk software, spi library from David Ogilvy(MetalPhreak) and libesphttpd & wifi settins form Jeroen Domburg(sprite_fm). So use and rescpect their respective licencies for their work. 
+ * This software uses espressif sdk software, spi library from David Ogilvy(MetalPhreak) and libesphttpd & wifi settins from Jeroen Domburg(sprite_fm). So use and rescpect their respective licencies for their work. 
  */
 
 #ifndef __AS3935_H__
@@ -48,6 +47,7 @@
 #define HSPI_INIT_STUF 	{spi_init(HSPI);spi_init_gpio(HSPI, SPI_CLK_USE_DIV);spi_tx_byte_order(HSPI, SPI_BYTE_ORDER_HIGH_TO_LOW);spi_rx_byte_order(HSPI, SPI_BYTE_ORDER_HIGH_TO_LOW);WRITE_PERI_REG(SPI_CTRL2(HSPI), 2<<SPI_MOSI_DELAY_MODE_S);} 
 
 #define GPIO_OUTPUT_SET(gpio_no, bit_value)	gpio_output_set(bit_value<<gpio_no, ((~bit_value)&0x01)<<gpio_no, 1<<gpio_no,0)
+
 //spi_transaction(spi_no, cmd_bits, cmd_data, addr_bits, addr_data, dout_bits, dout_data, din_bits, dummy_bits)
 //spi_no: SPI or HSPI
 //cmd_bits: length of command. Set to 0 to disable command component.

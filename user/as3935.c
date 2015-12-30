@@ -1,5 +1,5 @@
 /*
- * Uroš Golob <golob.uros@gmail.com> wrote this file.
+ * Copyright (C) 2015 Uroš Golob <golob.uros@gmail.com>
  * 
  * Work was done with intention to protect electronic devices and so lower e-waste.
  * It might work or it may not, just don't sue me if your house burns down or if it kills you...
@@ -7,14 +7,14 @@
  * This software and hardware is described in my diploma thesis(work in progress). 
  *   
  * Use it for personal use as you wish, just keep this notice on it if you do! 
- * And return changes back free of charge by same restrictions and notice! 
+ * And return changes back free of charge by same restrictions and this notice! 
  * 
- * For comercial use you can contact me and we can make a deal...
+ * For comercial use you can contact me and we can make apropriate licencing deal...
  *
  * Development took alot of time and money so remember me with some spare 
  * bitcoins: 1MaGphnuiMjywjQPKHKF239wzcef4KpNxX if you wish:)
  * 
- * This software uses espressif sdk software, spi library from David Ogilvy(MetalPhreak) and libesphttpd & wifi settins form Jeroen Domburg(sprite_fm). So use and rescpect their respective licencies for their work. 
+ * This software uses espressif sdk software, spi library from David Ogilvy(MetalPhreak) and libesphttpd & wifi settins from Jeroen Domburg(sprite_fm). So use and rescpect their respective licencies for their work. 
  */
 
 #include "as3935.h"
@@ -22,12 +22,15 @@
 struct as3935_t as3935;
 
 void pending_interrupt(){
+	uart0_sendStr("interrupt\n");
 		interrupt_flag=1;
 }
 
 
 void ICACHE_FLASH_ATTR clear_interrupt(){
 	//clear interrupt status
+	
+	if(state_machine<3)return;
 	uart0_sendStr("clear irq\n");
 	GPIO_REG_WRITE(GPIO_STATUS_W1TC_ADDRESS, GPIO_REG_READ(GPIO_STATUS_ADDRESS) );
 	
@@ -39,10 +42,10 @@ void ICACHE_FLASH_ATTR clear_interrupt(){
 			if(threshold_distance>as3935.x7.a7.DISTANCE){
 				//switch relay off
 				
-				GPIO_OUTPUT_SET(GPIO_ID_PIN(RELAY_PIN),0);
-				
+				//GPIO_OUTPUT_SET(GPIO_ID_PIN(RELAY_PIN),0);
 				//sqedule further checking
-				state_machine=6;
+				if(state_machine>2)
+					state_machine=6;
 			}
 			
 		break;
@@ -88,7 +91,7 @@ void  ICACHE_FLASH_ATTR as3935_chip_read(){
 	HSPI_INIT_STUF;
 	
 	for(chip=0;chip<9;chip++){
-		system_soft_wdt_feed();
+//		system_soft_wdt_feed();
 		switch(chip){
 			case 0:
 				as3935.x0.d0 = spi_read(chip);
@@ -406,6 +409,7 @@ void ICACHE_FLASH_ATTR as3935_init(){
 	as3935_set_watchdog_thresold(1);
 	as3935_set_spike_rejection(2);
 	as3935_set_noise_floor_level(2);*/
+	as3935_set_mask_disturbers(1);
 	system_soft_wdt_restart();
 	
 }

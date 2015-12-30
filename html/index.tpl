@@ -3,7 +3,7 @@
 </head>
 <body>			
 <div id="main">
-<center><h1>THUNERSTORM PROTECTED IOT SWITCH</h1></center>
+<center><h1>THUNERSTORM SENSOR PROTECTED IOT SWITCH</h1></center>
 <h2>
 <center>User Settings </center>
 </h2>
