@@ -1,5 +1,5 @@
 # Thunderstorm sensor protected iot switch
-*Another a bit more complex project written in c with espressif sdk for my diploma thesis, so it is all non working and work in progress...*
+*Another a bit more complex project written in c with espressif sdk for my diploma thesis, so it is in prototype stage and work in progress when I have time to work on it . . .*
 
 Copyright (c) 2015 Uroš Golob <golob.uros@gmail.com> 
  
@@ -35,9 +35,10 @@ Well you can order boards from [DirtyPCB's]
  * as3935
  * ma5532
  * ams1117 3.3
- * optotransistor
- * npn
+ * optotransistors
+ * npns
  * couple of R, C & D 
+ * pair of relays
 
 ## how to:
 1. get yourself working esp-open-sdk + newer sdk from espressif and link it to esp-open-sdk/sdk 
@@ -70,3 +71,6 @@ if your dial-out permission thingy stuffs aren't setup properly
 ## user interface looks like this: 
 ![settings web page]
 (https://github.com/na1pir/as3935_esp8266_iot/raw/master/webpage.png)
+
+Text for thesis is available at https://dk.um.si/Dokument.php?id=99783&lang=eng
+It is in Slovene language but generaly you can still look at pictures. 
